@@ -1,0 +1,44 @@
+<main class="p-4">
+  <h1>Opciones para el personal asignado a Elecciones Nacionales</h1>
+
+  <p>El siguiente listado permite registrar las constancias de asistencia y de
+    actuación que son presentadas en el liceo u oficina, y la opción de
+    tipo de compensación que realizan los docentes.</p>
+
+  <p>Cada funcionario debe estar registrado una única vez en el liceo
+    u oficina donde presentó la constancia original.</p>
+
+  <div class="card mb-3 border-dark" style="min-width:46rem">
+    <div class="card-header">
+      Elección activa
+    </div>
+    <div class="card-body text-dark">
+      Se muestran los registros que corresponden a las <%= CompElecDesc %>
+    </div>
+  </div>
+
+  <div class="card mb-3 border-dark" style="min-width:46rem">
+    <div class="card-header">
+      Personal con funciones en <%= dependDesc %>
+    </div>
+    <div class="card-body text-dark">
+      <table class="datatable">
+        <thead>
+          <tr>
+            <th>Cédula</th>
+            <th>Nombre</th>
+            <th>Función</th>
+            <th>Escalafón</th>
+            <th>Opción</th>
+            <th>Estado</th>
+          </tr>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script>
+var data = [
+  [ '1','2','3','4','5','6' ]
+];
+</script>
