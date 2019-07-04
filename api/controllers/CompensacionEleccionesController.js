@@ -11,9 +11,33 @@ module.exports = {
     let viewdata = {
       title: 'Registro de opciones de compensación para los asignados a elecciones nacionales',
       id: 'registro',
-      dependDesc: 'prueba',
-      CompElecDesc: 'Elecciones Internas 2019',
+      //dependDesc: 'prueba',
+      //CompElecDesc: 'Elecciones Internas 2019',
     };
+
+    try {
+      const periodo = await CompensacionEleccionesPeriodos.findOne({CompElecActivo:1});
+      if (!periodo) {
+        throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
+      }
+      viewdata.CompElecDesc = periodo.CompElecDesc;
+
+      const depend = await Dependencias.findOne({id:req.session.Dependid});
+      if (!depend) {
+        throw new Error("No se encuentra la definición de la dependencia "+req.session.Dependid);
+      }
+      viewdata.dependDesc = depend.DependDesc;
+      viewdata.dependNom = depend.DependNom;
+
+      const personal = await FuncionesAsignadas.find({DependId:req.session.Dependid,Estado:'A'});
+      if (!personal) {
+        throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
+      }
+      viewdata.personal = personal;
+    } catch (e) {
+      // viewdata.mensaje = e.message;
+      return res.serverError(e);
+    }
     return res.view(viewdata);
   },
 

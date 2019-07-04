@@ -5,7 +5,7 @@
     actuación que son presentadas en el liceo u oficina, y la opción de
     tipo de compensación que realizan los docentes.</p>
 
-  <p>Cada funcionario debe estar registrado una única vez en el liceo
+  <p>Cada funcionario debe estar registrado solo en el liceo
     u oficina donde presentó la constancia original.</p>
 
   <div class="card mb-3 border-dark" style="min-width:46rem">
@@ -17,12 +17,12 @@
     </div>
   </div>
 
-  <div class="card mb-3 border-dark" style="min-width:46rem">
+  <div class="card mb-3 border-dark w-100" style="min-width:46rem">
     <div class="card-header">
-      Personal con funciones en <%= dependDesc %>
+      Personal con funciones en <%= dependDesc %><% if (dependNom) { %> (<%= dependNom %>)<% } %>
     </div>
     <div class="card-body text-dark">
-      <table class="datatable">
+      <table class="datatable col-sm-12">
         <thead>
           <tr>
             <th>Cédula</th>
@@ -39,6 +39,8 @@
 
 <script>
 var data = [
-  [ '1','2','3','4','5','6' ]
+  <% personal.forEach( p => { -%>
+  [ '<%= p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%= p.FuncionDesc %>', '<%= p.EscId %>', '<button class="btn btn-primary">cambiar</button>', '' ],
+  <% }) %>
 ];
 </script>

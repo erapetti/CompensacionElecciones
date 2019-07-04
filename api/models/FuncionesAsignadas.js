@@ -8,9 +8,16 @@
  module.exports = {
    datastore: 'Personal',
    migrate: 'safe',
-   tableName: 'FUNCIONESASIGNADAS',
+   tableName: 'v_funciones_del_personal',
    attributes: {
            id: { type:'number', columnName:'FuncAsignadaId', required:true },
+           DependId: 'number',
+           Estado: 'string',
+           PersonalPerId: 'number',
+           PerDocId: 'string',
+           PerNombreCompleto: 'string',
+           FuncionDesc: 'string',
+           EscId: 'string',
    },
 
    personalActivo: async function (dependId) {

@@ -10,7 +10,10 @@
 module.exports = async function(req, res, next) {
 
   if (sails.config.environment === "development") {
-    req.session = {Sesionesid:1,Userid:'u19724241',Dependid:1023,Lugarid:1023};
+    req.session.Sesionesid=1;
+    req.session.Userid='u19724241';
+    req.session.Dependid=1023;
+    req.session.Lugarid=1023;
     return next();
   }
 
