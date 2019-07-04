@@ -9,10 +9,13 @@ module.exports = {
 
   registro: async function(req,res) {
     let viewdata = {
-      title: 'Registro de opciones de compensación para los asignados a elecciones nacionales',
+      title: 'Opciones para el personal asignado a Elecciones Nacionales',
       id: 'registro',
-      //dependDesc: 'prueba',
-      //CompElecDesc: 'Elecciones Internas 2019',
+      dependDesc: undefined,
+      compElecDesc: undefined,
+      dependNom: undefined,
+      personal: [],
+      mensaje: undefined,
     };
 
     try {
@@ -20,7 +23,7 @@ module.exports = {
       if (!periodo) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
-      viewdata.CompElecDesc = periodo.CompElecDesc;
+      viewdata.compElecDesc = periodo.CompElecDesc;
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
@@ -35,8 +38,7 @@ module.exports = {
       }
       viewdata.personal = personal;
     } catch (e) {
-      // viewdata.mensaje = e.message;
-      return res.serverError(e);
+      viewdata.mensaje = e.message;
     }
     return res.view(viewdata);
   },

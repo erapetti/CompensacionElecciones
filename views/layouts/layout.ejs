@@ -13,11 +13,17 @@
     <!--STYLES END-->
   </head>
 
-  <body>
+  <body class="p-3">
+    <h1><% if (typeof title !== 'undefined') { %><%= title %><% } %></h1>
+
+    <% if (typeof mensaje !== "undefined") { -%>
+    <div class="alert alert-danger mt-5 w-75" role="alert"><%- mensaje %></div>
+    <% } else { -%>
     <%- body %>
+    <% } -%>
 
     <!--TEMPLATES-->
-    
+
     <!--TEMPLATES END-->
 
     <!--SCRIPTS-->
