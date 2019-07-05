@@ -36,10 +36,53 @@
   </div>
 </main>
 
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Cambiar preferencia</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <p>Seleccione el tipo de constancia y la preferencia de compensación:</p>
+          <div class="form-group">
+            <label>Tipo de constancia:</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="nopresenta" name="tipo" value="nopresenta">
+              <label class="form-check-label" for="nopresenta">No presenta</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="asistencia" name="tipo" value="asistencia">
+              <label class="form-check-label" for="asistencia">Constancia de asistencia</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="actuacion" name="tipo" value="actuacion">
+              <label class="form-check-label" for="actuacion">Constancia de actuación</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tipo de compensación:</label>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="licencia" name="compensacion" value="licencia">
+              <label class="form-check-label" for="licencia">Días de licencia</label>
+            </div>
+            <div class="form-check">
+              <input type="radio" class="form-check-input" id="dinero" name="compensacion" value="dinero">
+              <label class="form-check-label" for="dinero">Compensación económica (solo para docentes)</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 var data = [
   <% personal.forEach( p => { -%>
-  [ '<%= p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%= p.FuncionDesc %>', '<%= p.EscId %>', '<button class="btn btn-primary">cambiar</button>', '' ],
+  [ '<%= p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%= p.FuncionDesc %>', '<%= p.EscId %>', '<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="fas fa-times"></span> <span class="fas fa-dollar-sign"><span class="fas fa-dollar-sign"></span> <span class="fas fa-walking"></span><span class="fas fa-walking"></span></button>', '' ],
   <% }) %>
 ];
 </script>
