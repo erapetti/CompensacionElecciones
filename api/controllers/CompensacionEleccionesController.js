@@ -34,7 +34,7 @@ module.exports = {
       viewdata.dependDesc = depend.DependDesc;
       viewdata.dependNom = depend.DependNom;
 
-      const personal = await FuncionesAsignadas.find({DependId:req.session.Dependid,Estado:'A'});
+      const personal = await FuncionesAsignadas.find({DependId:req.session.Dependid,Estado:'A'}).sort('PerDocId');
       if (!personal) {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
@@ -42,8 +42,9 @@ module.exports = {
 
       const perIds = personal.map(p => p.PersonalPerId);
 
-      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }}).sort('id desc');
+      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }}).sort('id desc').populate('DependId');
       viewdata.opciones = opciones;
+
     } catch (e) {
       viewdata.mensaje = e.message;
     }

@@ -51,16 +51,16 @@
           <p>Seleccione el tipo de constancia y la preferencia de compensación:</p>
           <div class="form-group">
             <div class="row">
-              <label class="col-form-label col-sm-2 pt-0">Nombre:</label>
-              <div class="col-sm-10">
+              <label class="col-form-label col-sm-3 pt-0">Nombre:</label>
+              <div class="col-sm-9">
                 <label id="nombrecompleto"></label>
               </div>
             </div>
           </div>
           <div class="form-group">
             <div class="row">
-              <label class="col-form-label col-sm-2 pt-0">Constancia:</label>
-              <div class="col-sm-10">
+              <label class="col-form-label col-sm-3 pt-0">Constancia:</label>
+              <div class="col-sm-9">
                 <div class="form-check">
                   <input type="radio" class="form-check-input" id="nopresenta" name="tipo" value="nopresenta">
                   <label class="form-check-label" for="nopresenta">No presenta</label>
@@ -78,8 +78,8 @@
           </div>
           <div class="form-group">
             <div class="row">
-              <label class="col-form-label col-sm-2 pt-0">Compensación:</label>
-              <div class="col-sm-10">
+              <label class="col-form-label col-sm-3 pt-0">Compensación:</label>
+              <div class="col-sm-9">
                 <div class="form-check">
                   <input type="radio" class="form-check-input" id="licencia" name="compensacion" value="licencia">
                   <label class="form-check-label" for="licencia">Días de licencia</label>
@@ -88,6 +88,14 @@
                   <input type="radio" class="form-check-input" id="dinero" name="compensacion" value="dinero">
                   <label class="form-check-label" for="dinero">Compensación económica</label>
                 </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Entregó original en:</label>
+              <div class="col-sm-9">
+                <label id="dependencia"></label>
               </div>
             </div>
           </div>
@@ -103,30 +111,48 @@
 
 <script>
 <% let idx = 0 -%>
+<% let btndata = '' -%>
 var data = [
-  <% personal.forEach( p => { -%>
-    <% let opcion = opciones.find(o => o.PersonalPerId == p.PersonalPerId);
-       let tipo = 'nopresenta';
-       let compensacion = 'licencia';
-       if (opcion) {
-         tipo = opcion.Tipo;
-         compensacion = opcion.Compensacion;
+<% personal.forEach( p => { -%>
+  <% let opcion = opciones.find(o => o.PersonalPerId == p.PersonalPerId);
+     let tipo = 'nopresenta';
+     let compensacion = 'licencia';
+     let dependDesc;
+     let noguardar;
+     if (opcion) {
+       tipo = opcion.Tipo;
+       compensacion = opcion.Compensacion;
+       if (tipo != 'nopresenta') {
+         dependDesc = opcion.DependId.DependDesc;
+         noguardar = (opcion.DependId.id != p.DependId);
        }
-       let icoNada = '<span class="fas fa-times"></span>';
-       let icoLicencia = '<span class="fas fa-walking"></span>';
-       let icoDinero = '<span class="fas fa-dollar-sign">';
-       let icono =
-          (tipo == 'nopresenta' ? icoNada
-                      : (compensacion == 'dinero' ? icoDinero+(tipo == 'actuacion' ? icoDinero : '')
-                      : icoLicencia+(tipo == 'actuacion' ? icoLicencia : '')
-          ));
-        let color =
-          (tipo == 'nopresenta' ? 'primary' : 'secondary');
-        let envio =
-          (! p.FechaEnvio || p.FechaAnulacion && ! p.FechaEnvioAnulacion ? 'P' : 'E');
-    -%>
-    [ '<%- p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%- p.FuncionDesc %>', '<%- p.EscId %>', '<button class="btn btn-<%- color %> accion" data-toggle="modal" data-target="#registroModal" data-idx="<%- idx %>" data-tipo="<%- tipo %>" data-compensacion="<%- compensacion %>" data-perid="<%- p.PersonalPerId %>"><%- icono %></button>', '<%- envio %>' ],
-    <% idx = idx + 1 -%>
-  <% }) %>
+     }
+     let icoNada = '<span class="fas fa-times"></span>';
+     let icoLicencia = '<span class="fas fa-walking"></span>';
+     let icoDinero = '<span class="fas fa-dollar-sign">';
+     let icono =
+        (tipo == 'nopresenta' ? icoNada
+                    : (compensacion == 'dinero' ? icoDinero+(tipo == 'actuacion' ? ' '+icoDinero : '')
+                    : icoLicencia+(tipo == 'actuacion' ? ' '+icoLicencia : '')
+        ));
+      let color =
+        (tipo == 'nopresenta' ? 'primary' : 'secondary');
+      let envio =
+        (! p.FechaEnvio || p.FechaAnulacion && ! p.FechaEnvioAnulacion ? 'P' : 'E');
+      btndata = btndata+
+       '\t{tipo:"'+tipo+'"'+
+       ', comp:"'+compensacion+'"'+
+       ', perid:'+p.PersonalPerId+
+       (dependDesc ? ', dependdesc:"'+dependDesc+'"' : '')+
+       (noguardar ? ', noguardar:1' : '')+
+       '},\n';
+      let boton = '<button class="btn btn-'+ color +' accion" data-idx="'+ idx +'">'+ icono +'</button>';
+      idx = idx + 1;
+  -%>
+  [ '<%- p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%- p.FuncionDesc %>', '<%- p.EscId %>', '<%- boton %>', '<%- envio %>' ],
+<% }) -%>
+];
+var btndata = [
+<%- btndata -%>
 ];
 </script>

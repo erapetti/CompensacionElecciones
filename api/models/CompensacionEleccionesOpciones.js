@@ -13,7 +13,7 @@
      id: { type:'number', columnName:'CompElecPeriodoOpcionId', autoIncrement:true },
      PersonalPerId: 'number',
      CompElecPeriodoId: { model:'CompensacionEleccionesPeriodos' },
-     DependId: 'number',
+     DependId: { model:'Dependencias' },
      Tipo: { type:'string', isIn:['nopresenta','asistencia','actuacion']},
      Compensacion: { type:'string', isIn:['licencia','dinero']},
      FechaRegistro: { type:'ref', columnType:'datetime' },

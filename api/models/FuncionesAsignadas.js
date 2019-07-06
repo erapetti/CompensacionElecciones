@@ -19,13 +19,4 @@
            FuncionDesc: 'string',
            EscId: 'string',
    },
-
-   personalActivo: async function (dependId) {
-     return await this.getDatastore().sendNativeQuery(`
-       select PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
-       from v_funciones_del_personal
-       where DependId = $1
-         and estado = 'A'
-     `, [dependId]);
-   },
  };
