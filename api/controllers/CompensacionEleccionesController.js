@@ -42,8 +42,8 @@ module.exports = {
 
       const perIds = personal.map(p => p.PersonalPerId);
 
-      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }});
-      sails.log.debug("opciones",opciones);
+      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }}).sort('id desc');
+      viewdata.opciones = opciones;
     } catch (e) {
       viewdata.mensaje = e.message;
     }
@@ -55,7 +55,6 @@ module.exports = {
       const perId = req.param('perid');
       const tipo = req.param('tipo');
       const compensacion = req.param('compensacion');
-      sails.log.debug("perid=",perId," tipo=",tipo," compensacion=",compensacion);
 
       const periodo = await CompensacionEleccionesPeriodos.findOne({CompElecActivo:1});
       if (!periodo) {
@@ -63,7 +62,6 @@ module.exports = {
       }
 
       if (!req.session.Dependid || !req.session.Userid) {
-        sails.log.debug(req.session.Dependid,req.session.Userid);
         throw new Error("Reinicie su sesión en el Portal de Servicios");
       }
 
@@ -77,10 +75,8 @@ module.exports = {
         UsrRegistro: req.session.Userid,
       };
 
-      sails.log.debug("opcion",opcion);
-
       await CompensacionEleccionesOpciones.create(opcion);
-      
+
     } catch(e) {
       return res.status(200).json({error:e.message});
     }
