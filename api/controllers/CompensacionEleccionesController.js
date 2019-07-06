@@ -16,6 +16,8 @@ module.exports = {
       dependNom: undefined,
       personal: [],
       mensaje: undefined,
+      tipos: [],
+      compensaciones: [],
     };
 
     try {
@@ -37,10 +39,52 @@ module.exports = {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
       viewdata.personal = personal;
+
+      const perIds = personal.map(p => p.PersonalPerId);
+
+      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }});
+      sails.log.debug("opciones",opciones);
     } catch (e) {
       viewdata.mensaje = e.message;
     }
     return res.view(viewdata);
+  },
+
+  guardar: async function(req,res) {
+    try {
+      const perId = req.param('perid');
+      const tipo = req.param('tipo');
+      const compensacion = req.param('compensacion');
+      sails.log.debug("perid=",perId," tipo=",tipo," compensacion=",compensacion);
+
+      const periodo = await CompensacionEleccionesPeriodos.findOne({CompElecActivo:1});
+      if (!periodo) {
+        throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
+      }
+
+      if (!req.session.Dependid || !req.session.Userid) {
+        sails.log.debug(req.session.Dependid,req.session.Userid);
+        throw new Error("Reinicie su sesión en el Portal de Servicios");
+      }
+
+      const opcion = {
+        PersonalPerId: perId,
+        CompElecPeriodoId: periodo.id,
+        DependId: req.session.Dependid,
+        Tipo: tipo,
+        Compensacion: compensacion,
+        FechaRegistro: new Date(),
+        UsrRegistro: req.session.Userid,
+      };
+
+      sails.log.debug("opcion",opcion);
+
+      await CompensacionEleccionesOpciones.create(opcion);
+      
+    } catch(e) {
+      return res.status(200).json({error:e.message});
+    }
+    return res.status(200).json({error:""});
   },
 
   consulta: async function(req,res) {

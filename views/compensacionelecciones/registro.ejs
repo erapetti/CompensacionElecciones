@@ -1,4 +1,4 @@
-<main>
+<main id="<%- id %>">
 
   <p>El siguiente listado permite registrar las constancias de asistencia y de
     actuación que son presentadas en el liceo u oficina, y la opción de
@@ -7,7 +7,7 @@
   <p>Cada funcionario debe estar registrado solo en el liceo
     u oficina donde presentó la constancia original.</p>
 
-  <div class="card mb-3 border-dark" style="min-width:46rem">
+  <div class="card mb-3 border-dark">
     <div class="card-header">
       Elección activa
     </div>
@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="card mb-3 border-dark w-100" style="min-width:46rem">
+  <div class="card mb-3 border-dark w-100">
     <div class="card-header">
       Personal con funciones en <%= dependDesc %><% if (dependNom) { %> (<%= dependNom %>)<% } %>
     </div>
@@ -37,41 +37,63 @@
 </main>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="registroModal" tabindex="-1" role="dialog" aria-labelledby="registroModalLabel" aria-hidden="true" data-backdrop="static">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">Cambiar preferencia</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="registroModalLabel">Cambiar preferencia</h5>
       </div>
       <div class="modal-body">
+
+        <div class="alert alert-danger" style="display:none" role="alert" id="modalMessage"></div>
+
         <form>
           <p>Seleccione el tipo de constancia y la preferencia de compensación:</p>
           <div class="form-group">
-            <label>Tipo de constancia:</label>
-            <div class="form-check">
-              <input type="radio" class="form-check-input" id="nopresenta" name="tipo" value="nopresenta">
-              <label class="form-check-label" for="nopresenta">No presenta</label>
-            </div>
-            <div class="form-check">
-              <input type="radio" class="form-check-input" id="asistencia" name="tipo" value="asistencia">
-              <label class="form-check-label" for="asistencia">Constancia de asistencia</label>
-            </div>
-            <div class="form-check">
-              <input type="radio" class="form-check-input" id="actuacion" name="tipo" value="actuacion">
-              <label class="form-check-label" for="actuacion">Constancia de actuación</label>
+            <div class="row">
+              <label class="col-form-label col-sm-2 pt-0">Nombre:</label>
+              <div class="col-sm-10">
+                <label id="nombrecompleto"></label>
+              </div>
             </div>
           </div>
           <div class="form-group">
-            <label>Tipo de compensación:</label>
-            <div class="form-check">
-              <input type="radio" class="form-check-input" id="licencia" name="compensacion" value="licencia">
-              <label class="form-check-label" for="licencia">Días de licencia</label>
+            <div class="row">
+              <label class="col-form-label col-sm-2 pt-0">Constancia:</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="nopresenta" name="tipo" value="nopresenta">
+                  <label class="form-check-label" for="nopresenta">No presenta</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="asistencia" name="tipo" value="asistencia">
+                  <label class="form-check-label" for="asistencia">Constancia de asistencia</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="actuacion" name="tipo" value="actuacion">
+                  <label class="form-check-label" for="actuacion">Constancia de actuación</label>
+                </div>
+              </div>
             </div>
-            <div class="form-check">
-              <input type="radio" class="form-check-input" id="dinero" name="compensacion" value="dinero">
-              <label class="form-check-label" for="dinero">Compensación económica (solo para docentes)</label>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-2 pt-0">Compensación:</label>
+              <div class="col-sm-10">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="licencia" name="compensacion" value="licencia">
+                  <label class="form-check-label" for="licencia">Días de licencia</label>
+                </div>
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" id="dinero" name="compensacion" value="dinero">
+                  <label class="form-check-label" for="dinero">Compensación económica</label>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="submit">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
           </div>
         </form>
       </div>
@@ -80,9 +102,21 @@
 </div>
 
 <script>
+<% let idx = 0 -%>
 var data = [
   <% personal.forEach( p => { -%>
-  [ '<%= p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%= p.FuncionDesc %>', '<%= p.EscId %>', '<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"><span class="fas fa-times"></span> <span class="fas fa-dollar-sign"><span class="fas fa-dollar-sign"></span> <span class="fas fa-walking"></span><span class="fas fa-walking"></span></button>', '' ],
+  <% let tipo = tipos.find(t => t.PerId == p.PerId);
+     let compensacion = compensaciones.find(c => c.PerId == p.PerId);
+     let iconada = '<span class="fas fa-times"></span>';
+     let icolicencia = '<span class="fas fa-walking"></span>';
+     let icodinero = '<span class="fas fa-dollar-sign">';
+     let icono =
+        (compensacion == 'licencia' ? icolicencia+(tipo == 'actuacion' ? icolicencia : '')
+                                    : compensacion == 'dinero' ? icodinero+(tipo == 'actuacion' ? icodinero : '')
+                                                              : iconada);
+  -%>
+  [ '<%- p.PerDocId %>', '<%= p.PerNombreCompleto %>', '<%- p.FuncionDesc %>', '<%- p.EscId %>', '<button class="btn btn-primary accion" data-toggle="modal" data-target="#registroModal" data-idx="<%- idx %>" data-tipo="<%- tipo %>" data-compensacion="<%- compensacion %>" data-perid="<%- p.PersonalPerId %>"><%- icono %></button>', '' ],
+  <% idx = idx + 1 -%>
   <% }) %>
 ];
 </script>
