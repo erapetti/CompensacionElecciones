@@ -2,23 +2,37 @@
 
   <p>El siguiente listado permite registrar las constancias de asistencia y de
     actuación que son presentadas en el liceo u oficina, y la opción de
-    tipo de compensación que realizan los docentes.</p>
+    tipo de compensación que realizan los funcionarios.</p>
 
   <p>Cada funcionario debe estar registrado solo en el liceo
     u oficina donde presentó la constancia original.</p>
 
   <div class="card mb-3 border-dark">
     <div class="card-header">
-      Elección activa
+      <%- periodo.CompElecDesc %>
     </div>
     <div class="card-body text-dark">
-      Se muestran los registros que corresponden a las <%= compElecDesc %>
+      <p>Las posibles compensaciones son:</p>
+      <table class="table">
+        <tr><th>Tipo</th><th>Escalafones</th><th>Asistencia</th><th>Actuación</th></tr>
+        <tr>
+          <td>Licencia</td>
+          <td><%- periodo.CompElecLicenciaEscalafones ? periodo.CompElecLicenciaEscalafonesp : 'Todos' %></td>
+          <td><%- periodo.CompElecLicenciaAsistencia %> días (<span class="fas fa-walking"></span>)</td>
+          <td><%- periodo.CompElecLicenciaActuacion %> días (<span class="fas fa-walking"></span><span class="fas fa-walking"></span>)</td>
+        </tr><tr>
+          <td>Compensación económica</td>
+          <td><%- periodo.CompElecDineroEscalafones ? periodo.CompElecDineroEscalafones : 'Todos' %></td>
+          <td>$ <%- periodo.CompElecDineroAsistencia %> (<span class="fas fa-dollar-sign"></span>)</td>
+          <td>$ <%- periodo.CompElecDineroActuacion %> (<span class="fas fa-dollar-sign"></span><span class="fas fa-dollar-sign"></span>)</td>
+        </tr>
+      </table>
     </div>
   </div>
 
   <div class="card mb-3 border-dark w-100">
     <div class="card-header">
-      Personal con funciones en <%= dependDesc %><% if (dependNom) { %> (<%= dependNom %>)<% } %>
+      Personal con funciones en <%- dependDesc %><% if (dependNom) { %> (<%- dependNom %>)<% } %>
     </div>
     <div class="card-body text-dark w-100">
       <table class="datatable col-sm-12 table-striped" id="datatable" style="width:100%">
@@ -129,7 +143,7 @@ var data = [
      }
      let icoNada = '<span class="fas fa-times"></span>';
      let icoLicencia = '<span class="fas fa-walking"></span>';
-     let icoDinero = '<span class="fas fa-dollar-sign">';
+     let icoDinero = '<span class="fas fa-dollar-sign"></span>';
      let icono =
         (tipo == 'nopresenta' ? icoNada
                     : (compensacion == 'dinero' ? icoDinero+(tipo == 'actuacion' ? ' '+icoDinero : '')

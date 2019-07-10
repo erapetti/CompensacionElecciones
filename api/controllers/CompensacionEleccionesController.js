@@ -12,7 +12,7 @@ module.exports = {
       title: 'Opciones para el personal asignado a Elecciones Nacionales',
       id: 'registro',
       dependDesc: undefined,
-      compElecDesc: undefined,
+      periodo: {},
       dependNom: undefined,
       personal: [],
       mensaje: undefined,
@@ -21,11 +21,12 @@ module.exports = {
     };
 
     try {
-      const periodo = await CompensacionEleccionesPeriodos.findOne({CompElecActivo:1});
-      if (!periodo) {
+      const hoy = new Date();
+      const periodo = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id').limit(1);
+      if (!periodo || !periodo[0]) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
-      viewdata.compElecDesc = periodo.CompElecDesc;
+      viewdata.periodo = periodo[0];
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
@@ -57,8 +58,9 @@ module.exports = {
       const tipo = req.param('tipo');
       const compensacion = req.param('compensacion');
 
-      const periodo = await CompensacionEleccionesPeriodos.findOne({CompElecActivo:1});
-      if (!periodo) {
+      const hoy = new Date();
+      const periodo = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id').limit(1);
+      if (!periodo || !periodo[0]) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
 
@@ -68,7 +70,7 @@ module.exports = {
 
       const opcion = {
         PersonalPerId: perId,
-        CompElecPeriodoId: periodo.id,
+        CompElecPeriodoId: periodo[0].id,
         DependId: req.session.Dependid,
         Tipo: tipo,
         Compensacion: compensacion,

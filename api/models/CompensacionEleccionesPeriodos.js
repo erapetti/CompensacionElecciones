@@ -13,6 +13,15 @@
            id: { type:'number', columnName:'CompElecPeriodoId', required:true },
            CompElecDesc: 'string',
            CompElecAnio: 'number',
-           CompElecActivo: 'number',
+           CompElecDesde: { type:'ref', columnType:'date' },
+           CompElecHasta: { type:'ref', columnType:'date' },
+           // licencia
+           CompElecLicenciaEscalafones: { type:'string', allowNull: true },
+           CompElecLicenciaAsistencia: 'number',
+           CompElecLicenciaActuacion: 'number',
+           // dinero
+           CompElecDineroEscalafones: { type:'string', allowNull: true },
+           CompElecDineroAsistencia: 'number',
+           CompElecDineroActuacion: 'number',
    },
  };
