@@ -36,6 +36,7 @@
             and FuncAsignadaAnulada=0
             and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
             and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=CURDATE())
+          group by PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId,FuncionDesc,EscId
           order by PerDocId
       `, [dependId]);
 
