@@ -152,7 +152,7 @@ var data = [
       let color =
         (tipo == 'nopresenta' ? 'primary' : 'secondary');
       let envio =
-        (! p.FechaEnvio || p.FechaAnulacion && ! p.FechaEnvioAnulacion ? 'P' : 'E');
+        (! p.FechaEnvio || p.FechaAnulacion && ! p.FechaEnvioAnulacion ? 'Pendiente' : 'Enviado');
       btndata = btndata+
        '\t{tipo:"'+tipo+'"'+
        ', comp:"'+compensacion+'"'+
