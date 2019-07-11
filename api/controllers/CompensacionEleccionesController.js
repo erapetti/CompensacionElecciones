@@ -121,9 +121,42 @@ module.exports = {
 */
   consulta: async function(req,res) {
     let viewdata = {
-      title: 'Autoconsulta del registro de opciones de compensación para los asignados a elecciones nacionales',
+      title: 'Registro de opciones de compensación por Elecciones Nacionales',
       id: 'consulta',
+      sprintf: require("sprintf"),
+      mensaje: undefined,
+      periodos: [],
+      persona: {},
+      opciones: [],
+      dependencias: [],
     };
+
+    try {
+      viewdata.periodos = await CompensacionEleccionesPeriodos.find();
+      viewdata.persona = await Personas.findOne({PaisCod:'UY',DocCod:'CI',PerDocId:req.session.Userid.replace('u','')});
+      if (!viewdata.persona || !viewdata.persona.id) {
+        throw new Error("No se encuentra la información para el usuario "+req.session.Userid+". Reinicie la sesión en el Portal de servicios.");
+      }
+      viewdata.opciones = await CompensacionEleccionesOpciones.find({PersonalPerId:viewdata.persona.id}).sort('id');
+
+      const dependIds = viewdata.opciones.map(o => o.DependId);
+      viewdata.dependencias = await Dependencias.find({id:{in: dependIds}});
+
+      // determino las opciones que van tachadas: las que tienen un registro posterior para el mismo período
+      for (let i=0; i<viewdata.opciones.length; i++) {
+        for (let j=i+1; j<viewdata.opciones.length; j++) {
+          if (viewdata.opciones[i].CompElecPeriodoId == viewdata.opciones[j].CompElecPeriodoId) {
+            // encontré
+            viewdata.opciones[i].tachado = 1;
+            break;
+          }
+        }
+      }
+    } catch (e) {
+      viewdata.mensaje = e.message;
+    }
+
+
     return res.view(viewdata);
   },
 

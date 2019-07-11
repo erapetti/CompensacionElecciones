@@ -30,6 +30,10 @@ module.exports = {
        adapter: 'sails-mysql',
        url: 'mysql://compelec:compelec@localhost:3306/Direcciones',
      },
+     Personas: {
+       adapter: 'sails-mysql',
+       url: 'mysql://compelec:compelec@localhost:3306/Personas',
+     },
   },
 
   models: {

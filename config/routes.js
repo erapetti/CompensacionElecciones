@@ -10,7 +10,7 @@
 
 module.exports.routes = {
 
-  '/': { controller: 'CompensacionElecciones', action: 'consulta' },
+  '/consulta': { controller: 'CompensacionElecciones', action: 'consulta' },
   '/registro': { controller: 'CompensacionElecciones', action: 'registro' },
   '/guardar': { controller: 'CompensacionElecciones', action: 'guardar' },
 

@@ -1,0 +1,48 @@
+<% Date.prototype.toString = function() {
+  return sprintf("%02d/%02d/%04d %02d:%02d:%02d", this.getDate(),this.getMonth()+1,this.getFullYear(),this.getHours(),this.getMinutes(),this.getSeconds());
+};
+-%>
+
+<main id="<%- id %>">
+  <p>Listado de opciones registradas para las compensaciones por Elecciones Nacionales
+    de <%- persona.PerNombreCompleto %>.
+  </p>
+
+  <div class="card mb-3 border-dark w-100">
+    <div class="card-body text-dark w-100">
+      <table class="datatable col-sm-12 table-striped" id="datatable" style="width:100%">
+        <thead>
+          <tr>
+            <th>Período</th>
+            <th>Tipo</th>
+            <th>Compensacion</th>
+            <th>Dependencia</th>
+            <th>Fecha Registro</th>
+            <th>Fecha Envío</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% let icoLicencia = '<span class="fas fa-walking"></span>';
+             let icoDinero = '<span class="fas fa-dollar-sign"></span>';
+          -%>
+          <% opciones.forEach(o => { -%>
+            <% if (!(o.tachado && !o.FechaEnvio)) { %>
+            <tr<%- o.tachado ? ' class="tachado"' : '' %>>
+              <td><% let periodo = periodos.find(p => p.id==o.CompElecPeriodoId) %><%- periodo.CompElecDesc || '' %></td>
+              <td><%- o.Tipo %></td>
+              <td><%- o.Compensacion %> (<%- o.Compensacion == 'dinero' ? icoDinero+(o.Tipo == 'actuacion' ? ' '+icoDinero : '') : icoLicencia+(o.Tipo == 'actuacion' ? ' '+icoLicencia : '') %>)</td>
+              <td><%- dependencias.find(d => d.id==o.DependId).DependDesc %></td>
+              <td><%- o.FechaRegistro %></td>
+              <td><%- o.FechaEnvio || '(no enviado aún)' %></td>
+            </tr>
+            <% } %>
+          <% }) -%>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p>Si la información presentada aquí no es correcta debe realizar su reclamo en la dependencia que ingresó el registro en el sistema.
+  </p>
+
+</main>

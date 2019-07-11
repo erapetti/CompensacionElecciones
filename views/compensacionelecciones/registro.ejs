@@ -140,8 +140,12 @@
 </div>
 
 <script>
-<% let idx = 0 -%>
-<% let btndata = '' -%>
+<% let idx = 0;
+   let btndata = '';
+   let icoNada = '<span class="fas fa-times"></span>';
+   let icoLicencia = '<span class="fas fa-walking"></span>';
+   let icoDinero = '<span class="fas fa-dollar-sign"></span>';
+-%>
 var data = [
 <% personal.forEach( p => { -%>
   <% let opcion = opciones.find(o => o.PersonalPerId == p.PersonalPerId);
@@ -157,9 +161,7 @@ var data = [
          noguardar = (opcion.DependId.id != p.DependId);
        }
      }
-     let icoNada = '<span class="fas fa-times"></span>';
-     let icoLicencia = '<span class="fas fa-walking"></span>';
-     let icoDinero = '<span class="fas fa-dollar-sign"></span>';
+
      let icono =
         (tipo == 'nopresenta' ? icoNada
                     : (compensacion == 'dinero' ? icoDinero+(tipo == 'actuacion' ? ' '+icoDinero : '')

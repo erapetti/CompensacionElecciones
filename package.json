@@ -20,7 +20,8 @@
     "sails-hook-orm": "^2.1.1",
     "sails-hook-sockets": "^1.5.5",
     "sails-mysql": "^1.0.1",
-    "soap": "^0.28.0"
+    "soap": "^0.28.0",
+    "sprintf": "^0.1.5"
   },
   "devDependencies": {
     "@sailshq/eslint": "^4.19.3"
