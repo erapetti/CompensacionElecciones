@@ -35,7 +35,7 @@ module.exports = {
       viewdata.dependDesc = depend.DependDesc;
       viewdata.dependNom = depend.DependNom;
 
-      const personal = await FuncionesAsignadas.find({DependId:req.session.Dependid,Estado:'A'}).sort('PerDocId');
+      const personal = await FuncionesAsignadas.activos(req.session.Dependid);
       if (!personal) {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
