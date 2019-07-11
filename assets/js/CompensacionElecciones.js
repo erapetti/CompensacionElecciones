@@ -1,4 +1,4 @@
-$('table.datatable').DataTable({
+var rtable = $('#registro table.datatable').DataTable({
   data:data,
   lengthMenu: [ 25, 50, 75, 100 ],
   language: {
@@ -16,7 +16,14 @@ $('table.datatable').DataTable({
   fixedHeader: { header: true, },
 });
 
-$('#registro button.accion').on('click', function (e) {
+rtable.on('draw', function() {
+  // en cada draw tengo que reasignar los eventos a los elementos
+  $('#registro button.accion').on('click', buttonAccion);
+});
+
+$('#registro button.accion').on('click', buttonAccion);
+
+function buttonAccion () {
   $('#registroModal #modalMessage').text('').hide();
   var idx = $(this).data('idx');
   if (idx >= 0) {
@@ -49,7 +56,7 @@ $('#registro button.accion').on('click', function (e) {
     $('#registroModal').data('perid', btndata[idx].perid);
     $('#registroModal').modal('show');
   }
-});
+}
 
 $('#registroModal #submit').click(function(e) {
   $('#registroModal button').attr('disabled',true);
