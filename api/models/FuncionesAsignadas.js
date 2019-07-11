@@ -21,8 +21,8 @@
    },
 
    activos: async function (dependId) {
-	const result = await this.getDatastore().sendNativeQuery(`
-          select PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
+     const result = await this.getDatastore().sendNativeQuery(`
+          select PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId DependId,FuncionDesc,EscId
           from RELACIONES_LABORALES
           join FUNCIONES_RELACION_LABORAL using (RelLabId)
           join FUNCIONES_ASIGNADAS FA using (FuncAsignadaId)
@@ -31,14 +31,14 @@
           join PUESTOS using (PuestoId)
           join DENOMINACIONES_CARGOS using (DenomCargoId)
           join Personas.V_PERSONAS on perid=personalperid
-          where silladependid=$1
+          where SillaDependId=$1
             and RelLabAnulada=0
             and FuncAsignadaAnulada=0
             and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
             and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=CURDATE())
           order by PerDocId
-	`, [dependId]);
+      `, [dependId]);
 
-	return result.rows;
+      return result.rows;
    },
  };
