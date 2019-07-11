@@ -254,6 +254,7 @@ module.exports = {
     //   'https://example.com',
     //   'https://staging.example.com',
     // ],
+    onlyAllowOrigins: [],
 
 
     /***************************************************************************
@@ -292,7 +293,7 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   log: {
-    level: 'debug'
+    level: 'info'
   },
 
 
@@ -322,7 +323,7 @@ module.exports = {
     * (https://sailsjs.com/config/http)                                        *
     *                                                                          *
     ***************************************************************************/
-    // trustProxy: true,
+    trustProxy: true,
 
   },
 
@@ -337,7 +338,7 @@ module.exports = {
   * this, just try deploying without setting it and see if it works.)       *
   *                                                                         *
   ***************************************************************************/
-  // port: 80,
+   port: 9090,
 
 
 
@@ -371,8 +372,9 @@ module.exports = {
   *                                                                         *
   ***************************************************************************/
   custom: {
-    baseUrl: 'https://example.com',
-    internalEmailAddress: 'support@example.com',
+    baseUrl: 'https://servicios.ces.edu.uy/node/CompensacionElecciones',
+    internalEmailAddress: 'infraestructura@ces.edu.uy',
+    basePath: '/node/CompensacionElecciones',
 
     // mailgunDomain: 'mg.example.com',
     // mailgunSecret: 'key-prod_fake_bd32301385130a0bafe030c',

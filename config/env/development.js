@@ -51,7 +51,6 @@ module.exports = {
     baseUrl: 'http://localhost:1337/',
     basePath: '',
     internalEmailAddress: 'rt@ces.edu.uy',
-    portalUrl: 'http://servicios.ces.edu.uy/',
   },
 
 };

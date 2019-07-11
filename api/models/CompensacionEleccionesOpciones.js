@@ -19,8 +19,5 @@
      FechaRegistro: { type:'ref', columnType:'datetime' },
      UsrRegistro: 'string',
      FechaEnvio: { type:'ref', columnType:'datetime' },
-     FechaAnulacion: { type:'ref', columnType:'datetime' },
-     UsrAnulacion: 'string',
-     FechaEnvioAnulacion: { type:'ref', columnType:'datetime' },
    },
  };

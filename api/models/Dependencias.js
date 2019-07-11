@@ -13,7 +13,7 @@ module.exports = {
   attributes: {
           id: { type:'number', columnName:'DependId', required:true },
           DependDesc: 'string',
-          DependNom: 'string',
+          DependNom: { type:'string', allowNull:true },
   },
 
 };

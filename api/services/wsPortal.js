@@ -9,33 +9,48 @@ module.exports = {
 			throw new Error("Sesión no válida. Reinicie su conexión con el portal de servicios");
 		}
 
-		var soap = require('soap');
+		const util = require('util');
+		const soap = require('soap');
 		const createClient = util.promisify(soap.createClient);
 		const client = await createClient('assets/wsdl/aws_dame_datos_de_sesion.wsdl');
-		const execute = util.promisify(client.Execute);
-		const result = await execute({Sesionesid:sesionId});
 
-		if (!result || !result.Userid) {
+		const execute = util.promisify(client.Execute);
+		let sesion;
+		try  {
+			sesion = await execute({Sesionesid:sesionId});
+		} catch (e) {
+			return (typeof e.Fault !== 'undefined' ? e.Fault : e);
+		}
+
+		if (!sesion || !sesion.Userid) {
 			throw new Error("Sesión no válida. Reinicie su conexión con el portal de servicios");
 		}
 
-		const leoPermiso = util.promisify(wsPortal.leoPermiso);
-		const permiso = await leoPermiso(sesionId, prmObjId, 'DSP');
+		const permiso = await wsPortal.leoPermiso(sesionId, prmObjId, 'DSP');
+
 		if (permiso.Autorizado !== "S") {
 			throw new Error("No tiene los privilegios requeridos para acceder a esta página");
 		}
-		return result;
+		return sesion;
 	},
 
 	leoPermiso: async function(sesionId,prmObjId,modo) {
 		// devuelve {Autorizado,Path}
 
-		var soap = require('soap');
+		const util = require('util');
+		const soap = require('soap');
 		const createClient = util.promisify(soap.createClient);
+
 		const client = await createClient('assets/wsdl/aws_autorizar_usuario_objeto.wsdl');
 		const execute = util.promisify(client.Execute);
-		const result = await execute({Sesionesid:sesionId,Programa:prmObjId,Modo:modo});
-		return result;
+		let permiso;
+		try {
+			permiso = await execute({Sesionesid:sesionId,Programa:prmObjId,Modo:modo});
+		} catch (e) {
+			return (typeof e.Fault !== 'undefined' ? e.Fault : e);
+		}
+
+		return permiso;
 	},
 
 };

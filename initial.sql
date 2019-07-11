@@ -36,7 +36,7 @@ CREATE TABLE `COMPELECPERIODOS` (
   `CompElecDineroActuacion` int(1) DEFAULT NULL,
   PRIMARY KEY (`CompElecPeriodoId`),
   UNIQUE KEY `CompElecPeriodoId` (`CompElecPeriodoId`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,24 +65,12 @@ CREATE TABLE `COMPELECPERIODOSOPCIONES` (
   `FechaRegistro` datetime DEFAULT NULL,
   `UsrRegistro` varchar(255) DEFAULT NULL,
   `FechaEnvio` datetime DEFAULT NULL,
-  `FechaAnulacion` datetime DEFAULT NULL,
-  `UsrAnulacion` varchar(255) DEFAULT NULL,
-  `FechaEnvioAnulacion` datetime DEFAULT NULL,
   `CompElecPeriodoId` int(11) DEFAULT NULL,
   PRIMARY KEY (`CompElecPeriodoOpcionId`),
   UNIQUE KEY `CompElecPeriodoOpcionId` (`CompElecPeriodoOpcionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `COMPELECPERIODOSOPCIONES`
---
-
-LOCK TABLES `COMPELECPERIODOSOPCIONES` WRITE;
-/*!40000 ALTER TABLE `COMPELECPERIODOSOPCIONES` DISABLE KEYS */;
-INSERT INTO `COMPELECPERIODOSOPCIONES` VALUES (1,538,1023,'actuacion','licencia','2019-07-06 03:08:29','u19724241',NULL,NULL,'',NULL,1),(2,5313,1023,'actuacion','dinero','2019-07-06 03:27:36','u19724241',NULL,NULL,'',NULL,1),(3,5077,1023,'asistencia','dinero','2019-07-06 03:27:54','u19724241',NULL,NULL,'',NULL,1),(4,5976,1023,'asistencia','licencia','2019-07-06 03:28:02','u19724241',NULL,NULL,'',NULL,1),(5,76015,1023,'nopresenta','licencia','2019-07-06 03:30:53','u19724241',NULL,NULL,'',NULL,1),(6,78606,1023,'asistencia','licencia','2019-07-06 03:31:01','u19724241',NULL,NULL,'',NULL,1),(7,538,1023,'asistencia','licencia','2019-07-06 03:31:36','u19724241',NULL,NULL,'',NULL,1),(8,538,1023,'actuacion','licencia','2019-07-06 03:41:09','u19724241',NULL,NULL,'',NULL,1),(9,538,1023,'asistencia','licencia','2019-07-06 03:41:16','u19724241',NULL,NULL,'',NULL,1),(10,538,1023,'nopresenta','licencia','2019-07-06 03:41:21','u19724241',NULL,NULL,'',NULL,1),(11,6199,1023,'actuacion','licencia','2019-07-06 16:30:41','u19724241',NULL,NULL,'',NULL,1),(12,5077,1023,'actuacion','licencia','2019-07-06 17:37:50','u19724241',NULL,NULL,'',NULL,1),(13,5976,1023,'actuacion','dinero','2019-07-06 17:40:56','u19724241',NULL,NULL,'',NULL,1),(14,5976,1014,'nopresenta','dinero','2019-07-06 17:41:06','u19724241',NULL,NULL,'',NULL,1),(15,538,1014,'asistencia','licencia','2019-07-06 18:24:50','u19724241',NULL,NULL,'',NULL,1),(16,5976,1023,'nopresenta','licencia','2019-07-06 18:26:06','u19724241',NULL,NULL,'',NULL,1),(17,21767,1023,'asistencia','dinero','2019-07-06 19:09:10','u19724241',NULL,NULL,'',NULL,1),(18,21767,1023,'nopresenta','dinero','2019-07-06 19:09:19','u19724241',NULL,NULL,'',NULL,1),(19,23139,1023,'asistencia','licencia','2019-07-10 11:22:11','u19724241',NULL,NULL,'',NULL,1),(20,23139,1023,'actuacion','licencia','2019-07-10 11:22:18','u19724241',NULL,NULL,'',NULL,1),(21,23139,1023,'nopresenta','licencia','2019-07-10 11:22:23','u19724241',NULL,NULL,'',NULL,1);
-/*!40000 ALTER TABLE `COMPELECPERIODOSOPCIONES` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

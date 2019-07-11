@@ -21,15 +21,20 @@ module.exports = async function(req, res, next) {
 
   if (sessionId) {
     try {
-      req.sesion = await wsPortal.getSession(sessionId);
-    } catch (ignore) { }
+      let url = req.url.substr(1); // saco la / inicial
+      url = url.replace(/\?.*/, '');
+
+      req.session = await wsPortal.getSession(sessionId,url);
+    } catch (e) {
+	return res.serverError(e);
+    }
   }
 
-  if (!req.sesion) {
+  if (!req.session) {
     if (req.wantsJSON) {
       return res.json({error:'SESSION TIMEDOUT'});
     } else {
-      return res.redirect(sails.config.custom.portalUrl);
+      return res.forbidden(new Error("Debe iniciar sesión en el portal de servicios"));
     }
   }
   return next();
