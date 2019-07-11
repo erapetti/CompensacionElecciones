@@ -57,20 +57,21 @@ module.exports = {
       const perId = req.param('perid');
       const tipo = req.param('tipo');
       const compensacion = req.param('compensacion');
+      const periodoId = req.param('periodoid');
 
       const hoy = new Date();
-      const periodo = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id').limit(1);
-      if (!periodo || !periodo[0]) {
+      const periodo = await CompensacionEleccionesPeriodos.findOne({id:periodoid,CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}});
+      if (!periodo) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
 
       if (!req.session.Dependid || !req.session.Userid) {
-        throw new Error("Reinicie su sesión en el Portal de Servicios");
+        throw new Error("Reinicie  || !periodo[0]su sesión en el Portal de Servicios");
       }
 
       const opcion = {
         PersonalPerId: perId,
-        CompElecPeriodoId: periodo[0].id,
+        CompElecPeriodoId: periodoid,
         DependId: req.session.Dependid,
         Tipo: tipo,
         Compensacion: compensacion,
