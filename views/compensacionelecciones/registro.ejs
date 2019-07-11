@@ -17,13 +17,14 @@
       </select>
     </div>
     <div class="card-body text-dark">
-      <p>Las posibles compensaciones son:</p>
       <% let periodo = periodos.find(p => p.id==periodoid) %>
+      <% if (periodo) { %>
+      <p>Las posibles compensaciones son:</p>
       <table class="table">
         <tr><th>Tipo</th><th>Escalafones</th><th>Asistencia</th><th>Actuación</th></tr>
         <tr>
           <td>Licencia</td>
-          <td><%- periodo.CompElecLicenciaEscalafones ? periodo.CompElecLicenciaEscalafonesp : 'Todos' %></td>
+          <td><%- periodo.CompElecLicenciaEscalafones ? periodo.CompElecLicenciaEscalafones : 'Todos' %></td>
           <td><%- periodo.CompElecLicenciaAsistencia %> días (<span class="fas fa-walking"></span>)</td>
           <td><%- periodo.CompElecLicenciaActuacion %> días (<span class="fas fa-walking"></span><span class="fas fa-walking"></span>)</td>
         </tr><tr>
@@ -33,6 +34,7 @@
           <td>$ <%- periodo.CompElecDineroActuacion %> (<span class="fas fa-dollar-sign"></span><span class="fas fa-dollar-sign"></span>)</td>
         </tr>
       </table>
+      <% } %>
     </div>
   </div>
 

@@ -37,7 +37,9 @@ module.exports = {
       if (!periodos) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
-      //viewdata.periodo = periodos[0];
+      if (periodoId && !periodos.find(p => p.id==periodoId)) {
+        throw new Error("El período solicitado no se encuentra activo para registrar opciones");
+      }
       viewdata.periodos = periodos;
       viewdata.periodoid = periodoId || periodos[0].id;
 

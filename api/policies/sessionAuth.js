@@ -15,8 +15,8 @@ module.exports = async function(req, res, next) {
     }
     req.session.Sesionesid=1;
     req.session.Userid='u19724241';
-    req.session.Dependid=1023;
-    req.session.Lugarid=1023;
+    req.session.Dependid=4300;
+    req.session.Lugarid=4300;
     return next();
   }
 
