@@ -7,26 +7,39 @@
 
 module.exports = {
 
+/*                          _     _
+             _ __ ___  __ _(_)___| |_ _ __ ___
+            | '__/ _ \/ _` | / __| __| '__/ _ \
+            | | |  __/ (_| | \__ \ |_| | | (_) |
+            |_|  \___|\__, |_|___/\__|_|  \___/
+                      |___/
+*/
   registro: async function(req,res) {
+    const periodoId = (req.param('periodoid') || '').checkFormat(/\d+/);
+
     let viewdata = {
       title: 'Opciones para el personal asignado a Elecciones Nacionales',
       id: 'registro',
       dependDesc: undefined,
-      periodo: {},
+      //periodo: {},
+      periodos: [],
       dependNom: undefined,
       personal: [],
       mensaje: undefined,
       tipos: [],
       compensaciones: [],
+      periodoid: periodoId,
     };
 
     try {
       const hoy = new Date();
-      const periodo = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id').limit(1);
-      if (!periodo || !periodo[0]) {
+      const periodos = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id');
+      if (!periodos) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
-      viewdata.periodo = periodo[0];
+      //viewdata.periodo = periodos[0];
+      viewdata.periodos = periodos;
+      viewdata.periodoid = periodoId || periodos[0].id;
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
@@ -43,7 +56,7 @@ module.exports = {
 
       const perIds = personal.map(p => p.PersonalPerId);
 
-      const opciones = await CompensacionEleccionesOpciones.find({PersonalPerId: { in: perIds }}).sort('id desc').populate('DependId');
+      const opciones = await CompensacionEleccionesOpciones.find({CompElecPeriodoId:periodoId, PersonalPerId:{ in:perIds }}).sort('id desc').populate('DependId');
       viewdata.opciones = opciones;
 
     } catch (e) {
@@ -52,15 +65,26 @@ module.exports = {
     return res.view(viewdata);
   },
 
+/*                                   _
+            __ _ _   _  __ _ _ __ __| | __ _ _ __
+           / _` | | | |/ _` | '__/ _` |/ _` | '__|
+          | (_| | |_| | (_| | | | (_| | (_| | |
+           \__, |\__,_|\__,_|_|  \__,_|\__,_|_|
+           |___/
+*/
   guardar: async function(req,res) {
     try {
-      const perId = req.param('perid');
-      const tipo = req.param('tipo');
-      const compensacion = req.param('compensacion');
-      const periodoId = req.param('periodoid');
+      const perId = (req.param('perid') || '').checkFormat(/\d+/);
+      const tipo = (req.param('tipo') || '').checkFormat(/\w+/);
+      const compensacion = (req.param('compensacion') || '').checkFormat(/\w+/);
+      const periodoId = (req.param('periodoid') || '').checkFormat(/\d+/);
+
+      if (!perId || !tipo || !compensacion || !periodoId) {
+        throw new Error("Parámetros incorrectos");
+      }
 
       const hoy = new Date();
-      const periodo = await CompensacionEleccionesPeriodos.findOne({id:periodoid,CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}});
+      const periodo = await CompensacionEleccionesPeriodos.findOne({id:periodoId,CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}});
       if (!periodo) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
@@ -71,7 +95,7 @@ module.exports = {
 
       const opcion = {
         PersonalPerId: perId,
-        CompElecPeriodoId: periodoid,
+        CompElecPeriodoId: periodoId,
         DependId: req.session.Dependid,
         Tipo: tipo,
         Compensacion: compensacion,
@@ -87,6 +111,12 @@ module.exports = {
     return res.status(200).json({error:""});
   },
 
+/*                                    _ _
+             ___ ___  _ __  ___ _   _| | |_ __ _
+            / __/ _ \| '_ \/ __| | | | | __/ _` |
+           | (_| (_) | | | \__ \ |_| | | || (_| |
+            \___\___/|_| |_|___/\__,_|_|\__\__,_|
+*/
   consulta: async function(req,res) {
     let viewdata = {
       title: 'Autoconsulta del registro de opciones de compensación para los asignados a elecciones nacionales',
@@ -95,4 +125,23 @@ module.exports = {
     return res.view(viewdata);
   },
 
+};
+
+/*                            _
+                    _ __ ___ (_)___  ___
+                   | '_ ` _ \| / __|/ __|
+                   | | | | | | \__ \ (__
+                   |_| |_| |_|_|___/\___|
+*/
+
+String.prototype.checkFormat = function(regexp) {
+  if (typeof this === 'undefined') {
+    return undefined;
+  }
+  if (typeof regexp === 'string') {
+    regexp = new RegExp('^'+regexp+'$');
+  } else {
+    regexp = new RegExp('^'+regexp.source+'$');
+  }
+  return (this.match(regexp) ? this.toString() : undefined);
 };

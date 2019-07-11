@@ -1,4 +1,4 @@
-var rtable = $('#registro table.datatable').DataTable({
+$('#registro table.datatable').DataTable({
   data:data,
   lengthMenu: [ 25, 50, 75, 100 ],
   language: {
@@ -16,17 +16,11 @@ var rtable = $('#registro table.datatable').DataTable({
   fixedHeader: { header: true, },
 });
 
-rtable.on('draw', function() {
-  // en cada draw tengo que reasignar los eventos a los elementos
-  $('#registro button.accion').on('click', buttonAccion);
-});
-
-$('#registro button.accion').on('click', buttonAccion);
-
-function buttonAccion () {
+$('#registro').on('click', 'button.accion', function buttonAccion () {
   $('#registroModal #modalMessage').text('').hide();
   var idx = $(this).data('idx');
   if (idx >= 0) {
+    $('#registroModal #periodoDesc').text( $('#periodoid option:checked').text() );
     $('#registroModal #nombrecompleto').text( data[idx][1] );
     $('#registroModal #dinero').prop('disabled', ( data[idx][3] != 'H' ));
     if (data[idx][3] == 'H') {
@@ -40,28 +34,36 @@ function buttonAccion () {
     } else {
       $('#registroModal div:has(> div > #dependencia)').hide();
     }
-    // noguardar
+    // si fue registrado en otra dependencia viene marcado con "noguardar"
     $('#registroModal #submit').attr('disabled', btndata[idx].noguardar == 1);
     $('#registroModal #nopresenta').attr('disabled', btndata[idx].noguardar == 1);
     $('#registroModal #asistencia').attr('disabled', btndata[idx].noguardar == 1);
     $('#registroModal #actuacion').attr('disabled', btndata[idx].noguardar == 1);
     $('#registroModal #licencia').attr('disabled', btndata[idx].noguardar == 1);
     $('#registroModal #dinero').attr('disabled', btndata[idx].noguardar == 1);
-    //
+    // cargo el radio "tipo"
     $('#registroModal #nopresenta').prop('checked', true);
     $('#registroModal #asistencia').prop('checked', btndata[idx].tipo == 'asistencia');
     $('#registroModal #actuacion').prop('checked', btndata[idx].tipo == 'actuacion');
+    // cargo el radio "compensacion"
     $('#registroModal #licencia').prop('checked', true);
     $('#registroModal #dinero').prop('checked', btndata[idx].comp == 'dinero');
+    // cargo el perid que va oculto
     $('#registroModal').data('perid', btndata[idx].perid);
+    // muestro el modal:
     $('#registroModal').modal('show');
   }
-}
+});
 
 $('#registroModal #submit').click(function(e) {
   $('#registroModal button').attr('disabled',true);
   $('#registroModal #submit').html('<span class="fas fa-spinner fa-spin"></span>');
-  var param = { perid:$('#registroModal').data('perid'), tipo:$('#registroModal input[name=tipo]:checked').val(), compensacion:$('#registroModal input[name=compensacion]:checked').val(), };
+  var param = {
+    periodoid:$('#periodoid option:checked').val(),
+    perid:$('#registroModal').data('perid'),
+    tipo:$('#registroModal input[name=tipo]:checked').val(),
+    compensacion:$('#registroModal input[name=compensacion]:checked').val(),
+  };
   $.post( 'guardar', param, function(data) {
     console.log(data);
     if (data.error == '') {

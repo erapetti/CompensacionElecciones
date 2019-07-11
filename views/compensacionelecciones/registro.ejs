@@ -8,11 +8,17 @@
     u oficina donde presentó la constancia original.</p>
 
   <div class="card mb-3 border-dark">
-    <div class="card-header">
-      <%- periodo.CompElecDesc %>
+    <div class="card-header form-inline">
+      <label for="periodoid">Período:</label>
+      <select class="ml-1 custom-select" id="periodoid" name="periodoid" onChange="window.location.href='?periodoid='+$('#periodoid option:checked').val()">
+        <% periodos.forEach(function(p){ -%>
+          <option value="<%- p.id %>"<% if (periodoid==p.id) { %> selected<% } %>><%- p.CompElecDesc %></option>
+        <% }) -%>
+      </select>
     </div>
     <div class="card-body text-dark">
       <p>Las posibles compensaciones son:</p>
+      <% let periodo = periodos.find(p => p.id==periodoid) %>
       <table class="table">
         <tr><th>Tipo</th><th>Escalafones</th><th>Asistencia</th><th>Actuación</th></tr>
         <tr>
@@ -63,6 +69,14 @@
 
         <form>
           <p>Seleccione el tipo de constancia y la preferencia de compensación:</p>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Período:</label>
+              <div class="col-sm-9">
+                <label id="periodoDesc"></label>
+              </div>
+            </div>
+          </div>
           <div class="form-group">
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Nombre:</label>
