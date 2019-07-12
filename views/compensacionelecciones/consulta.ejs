@@ -4,6 +4,15 @@
 -%>
 
 <main id="<%- id %>">
+
+  <% if (!opciones.length) { %>
+  <p>No hay opciones de compensación registradas para <%- persona.PerNombreCompleto %>.
+  </p>
+  <p>Si cuenta con constancias de asistencia o actuación en Elecciones Nacionales entonces debe presentarlas en la dependencia donde tiene radicada su designación.
+  </p>
+
+  <% } else { %>
+
   <p>Listado de opciones registradas para las compensaciones por Elecciones Nacionales
     de <%- persona.PerNombreCompleto %>.
   </p>
@@ -44,5 +53,7 @@
 
   <p>Si la información presentada aquí no es correcta debe realizar su reclamo en la dependencia que ingresó el registro en el sistema.
   </p>
+
+  <% } %>
 
 </main>

@@ -1,4 +1,4 @@
-main { width:calc(100vw - 2rem); overflow:hidden; }
+main { width:calc(100vw - 2rem); overflow:hidden; margin-top:2rem; }
 #registro table#datatable button { width:4rem; }
 #registro table#datatable td:nth-child(4) { padding-left:1rem;}
 #registro div.card { min-width:46rem; }

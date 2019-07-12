@@ -28,9 +28,7 @@ module.exports = async function(req, res, next) {
       url = url.replace(/\?.*/, '');
 
       req.session = await wsPortal.getSession(sessionId,url);
-    } catch (e) {
-      return res.serverError(e);
-    }
+    } catch (ignore) { }
   }
 
   if (!req.session) {
