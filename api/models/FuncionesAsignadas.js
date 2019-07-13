@@ -20,6 +20,8 @@
            EscId: 'string',
    },
 
+   // Personal con funciones activas en la dependencia
+   // En el caso de RECURSOS HUMANOS (2710) se devuelven todos los funcionarios activos en oficinas
    activos: async function (dependId) {
      const result = await this.getDatastore().sendNativeQuery(`
           select PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId DependId,FuncionDesc,EscId
@@ -31,7 +33,8 @@
           join PUESTOS using (PuestoId)
           join DENOMINACIONES_CARGOS using (DenomCargoId)
           join Personas.V_PERSONAS on perid=personalperid
-          where SillaDependId=$1
+          join Direcciones.DEPENDENCIAS D on D.DependId=SillaDependId
+          where (SillaDependId=$1 or ($1=2710 and not(DependTipId=2 and DependSubtipId=1)))
             and RelLabAnulada=0
             and FuncAsignadaAnulada=0
             and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
