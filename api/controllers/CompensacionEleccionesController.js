@@ -28,20 +28,20 @@ module.exports = {
       mensaje: undefined,
       tipos: [],
       compensaciones: [],
-      periodoid: periodoId,
+      periodoId: periodoId,
     };
 
     try {
-      const hoy = new Date();
+      const hoy = (new Date()).toDateString();
       const periodos = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id');
-      if (!periodos) {
+      if (!periodos || !periodos.length) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
       if (periodoId && !periodos.find(p => p.id==periodoId)) {
         throw new Error("El período solicitado no se encuentra activo para registrar opciones");
       }
       viewdata.periodos = periodos;
-      viewdata.periodoid = periodoId || periodos[0].id;
+      viewdata.periodoId = periodoId || periodos[0].id;
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
@@ -50,7 +50,7 @@ module.exports = {
       viewdata.dependDesc = depend.DependDesc;
       viewdata.dependNom = depend.DependNom;
 
-      const personal = await FuncionesAsignadas.activos(req.session.Dependid);
+      const personal = await FuncionesAsignadas.activos(req.session.Dependid, periodos.find(p => p.id==viewdata.periodoId).CompElecFecha);
       if (!personal) {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
@@ -85,7 +85,7 @@ module.exports = {
         throw new Error("Parámetros incorrectos");
       }
 
-      const hoy = new Date();
+      const hoy = (new Date()).toDateString();
       const periodo = await CompensacionEleccionesPeriodos.findOne({id:periodoId,CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}});
       if (!periodo) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
@@ -179,4 +179,9 @@ String.prototype.checkFormat = function(regexp) {
     regexp = new RegExp('^'+regexp.source+'$');
   }
   return (this.match(regexp) ? this.toString() : undefined);
+};
+
+Date.prototype.toDateString = function(d) {
+  const sprintf = require("sprintf");
+  return sprintf("%04d-%02d-%02d", this.getFullYear(),this.getMonth()+1,this.getDate());
 };

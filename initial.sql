@@ -82,3 +82,9 @@ CREATE TABLE `COMPELECPERIODOSOPCIONES` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2019-07-10 11:23:14
+
+-- v0.0.2
+alter table COMPELECPERIODOS drop column CompElecAnio;
+alter table COMPELECPERIODOS add column CompElecFecha date after CompElecDesc;
+update COMPELECPERIODOS set CompElecFecha='2019-06-30' where CompElecPeriodoId=1;
+

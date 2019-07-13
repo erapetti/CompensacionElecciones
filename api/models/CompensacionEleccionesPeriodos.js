@@ -12,7 +12,7 @@
    attributes: {
            id: { type:'number', columnName:'CompElecPeriodoId', required:true },
            CompElecDesc: 'string',
-           CompElecAnio: 'number',
+           CompElecFecha: { type:'ref', columnType:'date' },
            CompElecDesde: { type:'ref', columnType:'date' },
            CompElecHasta: { type:'ref', columnType:'date' },
            // licencia

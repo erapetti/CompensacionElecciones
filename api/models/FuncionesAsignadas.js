@@ -20,7 +20,7 @@
            EscId: 'string',
    },
 
-   activos: async function (dependId) {
+   activos: async function (dependId,fecha) {
      const result = await this.getDatastore().sendNativeQuery(`
           select PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId DependId,FuncionDesc,EscId
           from RELACIONES_LABORALES
@@ -34,11 +34,11 @@
           where SillaDependId=$1
             and RelLabAnulada=0
             and FuncAsignadaAnulada=0
-            and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
-            and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=CURDATE())
+            and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=date($2)
+            and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=date($2))
           group by PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId,FuncionDesc,EscId
           order by PerDocId
-      `, [dependId]);
+      `, [dependId,fecha]);
 
       return result.rows;
    },
