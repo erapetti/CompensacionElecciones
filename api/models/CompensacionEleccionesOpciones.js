@@ -15,7 +15,7 @@
      CompElecPeriodoId: { model:'CompensacionEleccionesPeriodos' },
      DependId: { model:'Dependencias' },
      Tipo: { type:'string', isIn:['nopresenta','asistencia','actuacion']},
-     Compensacion: { type:'string', isIn:['licencia','dinero']},
+     Compensacion: { type:'string', isIn:['licencia','dinero'], allowNull:true },
      FechaRegistro: { type:'ref', columnType:'datetime' },
      UsrRegistro: 'string',
      FechaEnvio: { type:'ref', columnType:'datetime' },

@@ -1,3 +1,4 @@
+// La datatable de la página registro:
 $('#registro table.datatable').DataTable({
   data:data,
   lengthMenu: [ 25, 50, 75, 100 ],
@@ -16,6 +17,9 @@ $('#registro table.datatable').DataTable({
   fixedHeader: { header: true, },
 });
 
+// Click en los botones de la datatable en la página registro:
+// Tengo que atender el evento en #registro porque cuando datatable pagina
+// hay botones que aparecen después y no les queda registrado el listener
 $('#registro').on('click', 'button.accion', function buttonAccion () {
   $('#registroModal #modalMessage').text('').hide();
   var idx = $(this).data('idx');
@@ -48,6 +52,8 @@ $('#registro').on('click', 'button.accion', function buttonAccion () {
     // cargo el radio "compensacion"
     $('#registroModal #licencia').prop('checked', true);
     $('#registroModal #dinero').prop('checked', btndata[idx].comp == 'dinero');
+    // desactivo compensación si el tipo es nopresenta
+    $('#registroModal input[name=compensacion]').attr('disabled', $('#registroModal input[name=tipo]:checked').val()=='nopresenta');
     // cargo el perid que va oculto
     $('#registroModal').data('perid', btndata[idx].perid);
     // muestro el modal:
@@ -55,6 +61,7 @@ $('#registro').on('click', 'button.accion', function buttonAccion () {
   }
 });
 
+// Envío del formulario en el modal de la página registro:
 $('#registroModal #submit').click(function(e) {
   $('#registroModal button').attr('disabled',true);
   $('#registroModal #submit').html('<span class="fas fa-spinner fa-spin"></span>');
@@ -78,4 +85,9 @@ $('#registroModal #submit').click(function(e) {
     $('#registroModal #submit').text('Guardar');
     $('#registroModal button').attr('disabled',false);
   });
+});
+
+// desactivo compensación si el tipo es nopresenta
+$('#registroModal input[name=tipo]').change(function() {
+  $('#registroModal input[name=compensacion]').attr('disabled', $('#registroModal input[name=tipo]:checked').val()=='nopresenta');
 });

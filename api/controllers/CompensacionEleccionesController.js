@@ -100,7 +100,7 @@ module.exports = {
         CompElecPeriodoId: periodoId,
         DependId: req.session.Dependid,
         Tipo: tipo,
-        Compensacion: compensacion,
+        Compensacion: (tipo!='nopresenta' ? compensacion : null),
         FechaRegistro: new Date(),
         UsrRegistro: req.session.Userid,
       };
