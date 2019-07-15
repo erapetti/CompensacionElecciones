@@ -158,7 +158,7 @@ var data = [
        compensacion = opcion.Compensacion;
        if (tipo != 'nopresenta') {
          dependDesc = opcion.DependId.DependDesc;
-         noguardar = (opcion.DependId.id != p.DependId);
+         noguardar = (opcion.DependId.id != dependId);
        }
      }
 
@@ -170,7 +170,7 @@ var data = [
       let color =
         (tipo == 'nopresenta' ? 'primary' : 'secondary');
       let envio =
-        (! p.FechaEnvio || p.FechaAnulacion && ! p.FechaEnvioAnulacion ? 'Pendiente' : 'Enviado');
+        (! p.FechaEnvio ? 'Pendiente' : 'Enviado');
       btndata = btndata+
        '\t{tipo:"'+tipo+'"'+
        ', comp:"'+compensacion+'"'+

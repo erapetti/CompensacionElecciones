@@ -20,8 +20,8 @@ module.exports = {
     let viewdata = {
       title: 'Opciones para el personal asignado a Elecciones Nacionales',
       id: 'registro',
+      dependId: req.session.Dependid,
       dependDesc: undefined,
-      //periodo: {},
       periodos: [],
       dependNom: undefined,
       personal: [],
@@ -50,7 +50,7 @@ module.exports = {
       viewdata.dependDesc = depend.DependDesc;
       viewdata.dependNom = depend.DependNom;
 
-      const personal = await FuncionesAsignadas.activos(req.session.Dependid, periodos.find(p => p.id==viewdata.periodoId).CompElecFecha);
+      const personal = await FuncionesAsignadas.activos(req.session.Dependid);
       if (!personal) {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
