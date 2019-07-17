@@ -27,11 +27,9 @@ $('#registro').on('click', 'button.accion', function buttonAccion () {
     $('#registroModal #periodoDesc').text( $('#periodoid option:checked').text() );
     $('#registroModal #nombrecompleto').text( data[idx][1] );
     $('#registroModal #dinero').prop('disabled', ( data[idx][3] != 'H' ));
-    if (data[idx][3] == 'H') {
-      $('#registroModal div:has(> #dinero)').show();
-    } else {
-      $('#registroModal div:has(> #dinero)').hide();
-    }
+    $('#registroModal div:has(> #dinero)').toggle(data[idx][3] == 'H');
+    $('#registroModal #aclaracion_docentes').toggle(data[idx][3] == 'H');
+
     if (btndata[idx].dependdesc) {
       $('#registroModal div:has(> div > #dependencia)').show();
       $('#registroModal #dependencia').text( btndata[idx].dependdesc );
