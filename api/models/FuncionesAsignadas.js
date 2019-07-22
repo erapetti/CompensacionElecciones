@@ -24,7 +24,7 @@
    // En el caso de RECURSOS HUMANOS (2710) se devuelven todos los funcionarios activos en oficinas
    activos: async function (dependId) {
      const result = await this.getDatastore().sendNativeQuery(`
-          select PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId DependId,FuncionDesc,EscId
+          select PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
           from RELACIONES_LABORALES
           join FUNCIONES_RELACION_LABORAL using (RelLabId)
           join FUNCIONES_ASIGNADAS FA using (FuncAsignadaId)
@@ -39,7 +39,7 @@
             and FuncAsignadaAnulada=0
             and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
             and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=CURDATE())
-          group by PersonalPerId,PerDocId,PerNombreCompleto,SillaDependId,FuncionDesc,EscId
+          group by PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
           order by PerDocId
       `, [dependId]);
 
