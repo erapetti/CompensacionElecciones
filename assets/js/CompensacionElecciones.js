@@ -89,3 +89,70 @@ $('#registroModal #submit').click(function(e) {
 $('#registroModal input[name=tipo]').change(function() {
   $('#registroModal input[name=compensacion]').attr('disabled', $('#registroModal input[name=tipo]:checked').val()=='nopresenta');
 });
+
+
+
+/**************** periodos ********************/
+
+// La datatable de la página periodos/listado:
+$('#periodosListado table.datatable').DataTable({
+  data:data,
+  lengthMenu: [ 25, 50, 75, 100 ],
+  language: {
+        search: 'Filtrar por:',
+        info: 'Mostrando de _START_ a _END_ de _TOTAL_ filas',
+        infoFiltered: '(filtradas de _MAX_ filas en total)',
+        lengthMenu: 'Mostrar _MENU_ registros',
+        emptyTable: 'No hay registros para mostrar',
+        zeroRecords: 'Al aplicar el filtro no hay registros para mostrar',
+        paginate: {
+              previous: 'Anterior',
+              next: 'Siguiente',
+        },
+  },
+  fixedHeader: { header: true, },
+});
+
+$('#periodosListado table.datatable td:first-child').click(function() {
+  let attr = $(this);
+  $('#listadoModal input[name=periodoid]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecDesc]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecFecha]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecDesde]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecHasta]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecLicenciaEscalafones][value='+attr.text()+']').attr('checked','checked');
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecLicenciaAsistencia]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecLicenciaActuacion]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecDineroEscalafones][value='+attr.text()+']').attr('checked','checked');
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecDineroAsistencia]').val( attr.text() );
+  attr = attr.next();
+  $('#listadoModal input[name=CompElecDineroActuacion]').val( attr.text() );
+
+  $('#listadoModal').modal('show');
+});
+
+$('#periodosListado #agregar').click(function() {
+  $('#listadoModal input[name=periodoid]').val( '' );
+  $('#listadoModal input[name=CompElecDesc]').val( '' );
+  $('#listadoModal input[name=CompElecFecha]').val( '' );
+  $('#listadoModal input[name=CompElecDesde]').val( '' );
+  $('#listadoModal input[name=CompElecHasta]').val( '' );
+  $('#listadoModal input[name=CompElecLicenciaEscalafones][value=ninguno]').attr('checked','checked');
+  $('#listadoModal input[name=CompElecLicenciaAsistencia]').val( '' );
+  $('#listadoModal input[name=CompElecLicenciaActuacion]').val( '' );
+  $('#listadoModal input[name=CompElecDineroEscalafones][value=ninguno]').attr('checked','checked');
+  $('#listadoModal input[name=CompElecDineroAsistencia]').val( '' );
+  $('#listadoModal input[name=CompElecDineroActuacion]').val( '' );
+
+  $('#listadoModal').modal('show');
+
+});

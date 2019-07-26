@@ -13,5 +13,6 @@ module.exports.routes = {
   '/consulta': { controller: 'CompensacionElecciones', action: 'consulta' },
   '/registro': { controller: 'CompensacionElecciones', action: 'registro' },
   '/guardar': { controller: 'CompensacionElecciones', action: 'guardar' },
+  '/periodos/listado': { controller: 'CompensacionEleccionesPeriodos', action: 'listado' },
 
 };

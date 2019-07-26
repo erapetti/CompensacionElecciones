@@ -1,0 +1,182 @@
+<% Date.prototype.toString = function() {
+  return sprintf("%02d/%02d/%04d", this.getDate(),this.getMonth()+1,this.getFullYear());
+};
+-%>
+<main id="<%- id %>">
+
+  <div class="card mb-3 border-dark w-100">
+    <div class="card-body text-dark w-100">
+      <table class="datatable col-sm-12 table-striped table-bordered table-sm" id="datatable" style="width:100%">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Activo<br>desde</th>
+            <th>Activo<br>hasta</th>
+            <th>Licencia<br>escalafones</th>
+            <th>Licencia<br>asistencia</th>
+            <th>Licencia<br>actuación</th>
+            <th>Dinero<br>escalafones</th>
+            <th>Dinero<br>asistencia</th>
+            <th>Dinero<br>actuación</th>
+            <th>Activo</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" id="agregar">Agregar período</button>
+</main>
+
+
+<div class="modal fade" id="listadoModal" tabindex="-1" role="dialog" aria-labelledby="listadoModalLabel" aria-hidden="true" data-backdrop="static">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="listadoModalLabel">Cambiar configuración del período</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-danger" style="display:none" role="alert" id="modalMessage"></div>
+
+        <form>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">id:</label>
+              <div class="col-sm-9">
+                <input type="text" name="periodoid" disabled="disabled">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Descripción:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecDesc">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Fecha del acto:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecFecha">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Período activo desde:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecDesde">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Período activo hasta:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecHasta">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Habilitación de compensación por licencia:</label>
+              <div class="col-sm-9">
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecLicenciaEscalafones" value="ninguno">
+                  <label class="form-check-label" for="ninguno">No habilitada</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecLicenciaEscalafones" value="H">
+                  <label class="form-check-label" for="docentes">Solo para docentes</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecLicenciaEscalafones" value="A,B,C,D,E,F,G,I,J,K,L,M,N,O,P,Q,R">
+                  <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="todos" name="CompElecLicenciaEscalafones" value="todos">
+                  <label class="form-check-label" for="todos">Habilitada para todos</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Días de licencia si asistieron:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecLicenciaAsistencia">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Días de licencia si actuaron:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecLicenciaActuacion">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Habilitación de compensación económica:</label>
+              <div class="col-sm-9">
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecDineroEscalafones" value="ninguno">
+                  <label class="form-check-label" for="ninguno">No habilitada</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecDineroEscalafones" value="H">
+                  <label class="form-check-label" for="docentes">Solo para docentes</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecDineroEscalafones" value="A,B,C,D,E,F,G,I,J,K,L,M,N,O,P,Q,R">
+                  <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
+                </div>
+                <div class="form-check mt-1">
+                  <input type="radio" class="form-check-input" id="todos" name="CompElecDineroEscalafones" value="todos">
+                  <label class="form-check-label" for="todos">Habilitada para todos</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Dinero si asistieron:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecDineroAsistencia">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <label class="col-form-label col-sm-3 pt-0">Dinero si actuaron:</label>
+              <div class="col-sm-9">
+                <input type="text" name="CompElecDineroActuacion">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="submit">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var data = [
+<% periodos.forEach( p => { -%>
+  [ '<span class="text-primary"><%- p.id %> <i class="fas fa-edit"></i></span>','<%= p.CompElecDesc %>','<%- p.CompElecFecha %>','<%- p.CompElecDesde %>','<%- p.CompElecHasta %>','<%- p.CompElecLicenciaEscalafones ? p.CompElecLicenciaEscalafones : "todos" %>','<%= p.CompElecLicenciaAsistencia %>','<%- p.CompElecLicenciaActuacion %>', '<%- p.CompElecDineroEscalafones %>', '<%- p.CompElecDineroAsistencia %>', '<%- p.CompElecDineroActuacion %>', '<%- p.activo ? "Sí" : "No" %>' ],
+<% }) -%>
+];
+</script>
