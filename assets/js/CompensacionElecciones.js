@@ -50,8 +50,10 @@ $('#registro').on('click', 'button.accion', function buttonAccion () {
     // cargo el radio "compensacion"
     $('#registroModal #licencia').prop('checked', true);
     $('#registroModal #dinero').prop('checked', btndata[idx].comp == 'dinero');
-    // desactivo compensación si el tipo es nopresenta
-    $('#registroModal input[name=compensacion]').attr('disabled', $('#registroModal input[name=tipo]:checked').val()=='nopresenta');
+    if (btndata[idx].noguardar != 1) {
+      // desactivo compensación si el tipo es nopresenta
+      $('#registroModal input[name=compensacion]').attr('disabled', $('#registroModal input[name=tipo]:checked').val()=='nopresenta');
+    }
     // cargo el perid que va oculto
     $('#registroModal').data('perid', btndata[idx].perid);
     // muestro el modal:
