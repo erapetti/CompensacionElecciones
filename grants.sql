@@ -4,3 +4,5 @@ GRANT INSERT ON Personal.COMPELECPERIODOSOPCIONES TO 'compelec'@'localhost';
 GRANT SELECT ON Personal.* TO 'compelec'@'localhost';
 GRANT SELECT ON Personas.* TO 'compelec'@'localhost';
 
+GRANT INSERT,UPDATE ON Personal.COMPELECPERIODOS TO 'compelec'@'localhost';
+
