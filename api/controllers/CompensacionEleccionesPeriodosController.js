@@ -37,7 +37,7 @@ module.exports = {
   guardar: async function(req,res) {
     try {
       let periodo = {};
-      periodo.id = req.param('periodoid','').checkFormat(/\d+ /);
+      periodo.id = req.param('periodoid','').checkFormat(/\d+/);
       periodo.CompElecDesc = req.param('CompElecDesc','').checkFormat(/[\wáéíóúÁÉÍÓÚüÜñÑ ,;.'"-]+/);
       periodo.CompElecFecha = req.param('CompElecFecha','').checkFormat(/\d\d\d\d-\d\d-\d\d/);
       periodo.CompElecDesde = req.param('CompElecDesde','').checkFormat(/\d\d\d\d-\d\d-\d\d/);
@@ -56,7 +56,6 @@ module.exports = {
       if (!periodo.id) {
         await CompensacionEleccionesPeriodos.create(periodo);
       } else {
-        periodo.id = parseInt(periodo.id); // trae un espacio al final
         await CompensacionEleccionesPeriodos.update({id:periodo.id},periodo);
       }
 

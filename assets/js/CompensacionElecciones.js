@@ -120,25 +120,33 @@ $('#periodosListado table.datatable').DataTable({
               next: 'Siguiente',
         },
   },
+  columnDefs: [
+    { targets:0,
+      searchable:false,
+      render:function(data){
+        return '<span class="text-primary">'+data+' <i class="fas fa-edit"></i></span>';
+      },
+    },
+  ],
   fixedHeader: { header: true, },
 });
 
 // cargo el modal con los valores de la fila que se quiere editar
 $('#periodosListado table.datatable td:first-child').click(function() {
-  let myForm = $('#listadoModal form > div');
-  let values = $(this);
+  const idx = $(this).text();
+  const dataRow = data.find(function(r) { return r[0]==idx });
+  const formDiv = $('#listadoModal').find('form > div');
 
   // cargo en el form los valores que hay en esta fila de la tabla
-  for(let i=0; i<=10; myForm = myForm.next('div'), values = values.next('td'), i++) {
-    const formInput = myForm.find('input').first();
-    if (formInput.is(':radio')) {
-      console.log(formInput.attr('name')+' '+values.text());
+  for(let i=0; i<=10; i++) {
+    const formInput = $(formDiv[i]).find('input');
+    if ($(formInput).is(':radio')) {
       // desselecciono todas las opciones
-      myForm.find('input').removeAttr('checked');
+      $(formDiv[i]).find('input').removeAttr('checked');
       // selecciono el input que tiene el valor correcto
-      myForm.find('input[value="'+values.text()+'"]').attr('checked','checked');
+      $(formInput).filter('input[value="'+dataRow[i]+'"]').attr('checked','checked');
     } else {
-      formInput.val( values.text() );
+      $(formInput).val( dataRow[i] );
     }
   }
   $('#listadoModal form').removeClass('was-validated');
@@ -166,8 +174,8 @@ $('#periodosListado #agregar').click(function() {
 
 // Envío del formulario en el modal de la página periodosListado:
 $('#listadoModal #submit').click(function(event) {
-  console.log($(this));
-  console.log($(this).closest('form'));
+
+  // valido el formulario usando HTML5
   $('#listadoModal form').addClass('was-validated');
   if ($('#listadoModal form')[0].checkValidity() === false) {
     event.preventDefault();
@@ -175,17 +183,19 @@ $('#listadoModal #submit').click(function(event) {
     $('#listadoModal #modalMessage').text('Debe completar los campos marcados con rojo').removeClass('d-none');
     return;
   }
+
+  // prepario el envío por ajax
   $('#listadoModal button').attr('disabled',true);
   $('#listadoModal #submit').html('<span class="fas fa-spinner fa-spin"></span>');
+  // construyo el objeto param que voy a enviar como parámetro POST
   var param = { };
-  let myForm = $('#listadoModal form > div');
-  for(let i=0; i<=10; myForm = myForm.next('div'), i++) {
-    let formInput = myForm.find('input').first();
-    if (formInput.is(':radio')) {
-      formInput = myForm.find(':checked');
-    }
-    param[formInput.attr('name')] = formInput.val();
+  const formDiv = $('#listadoModal').find('form > div');
+  for(let i=0; i<=10; i++) {
+    const formInput = $(formDiv[i]).find('input');
+    param[formInput.attr('name')] = $(formInput).is(':radio') ? $(formInput).filter(':checked').val() : $(formInput).val();
   }
+
+  // envío el formulario
   $.post( 'guardar', param, function(data) {
     if (data.error == '') {
       location.reload();

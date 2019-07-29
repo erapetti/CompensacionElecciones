@@ -89,19 +89,19 @@
               <label class="col-form-label col-sm-3 pt-0">Habilitación de compensación por licencia:</label>
               <div class="col-sm-9">
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecLicenciaEscalafones" value="ninguno">
+                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecLicenciaEscalafones" value="ninguno" required>
                   <label class="form-check-label" for="ninguno">No habilitada</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="docentes" name="CompElecLicenciaEscalafones" value="docentes">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecLicenciaEscalafones" value="docentes" required>
                   <label class="form-check-label" for="docentes">Solo para docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecLicenciaEscalafones" value="no docentes">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecLicenciaEscalafones" value="no docentes" required>
                   <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="todos" name="CompElecLicenciaEscalafones" value="todos">
+                  <input type="radio" class="form-check-input" id="todos" name="CompElecLicenciaEscalafones" value="todos" required>
                   <label class="form-check-label" for="todos">Habilitada para todos</label>
                 </div>
               </div>
@@ -132,19 +132,19 @@
               <label class="col-form-label col-sm-3 pt-0">Habilitación de compensación económica:</label>
               <div class="col-sm-9">
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecDineroEscalafones" value="ninguno">
+                  <input type="radio" class="form-check-input" id="ninguno" name="CompElecDineroEscalafones" value="ninguno" required>
                   <label class="form-check-label" for="ninguno">No habilitada</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="docentes" name="CompElecDineroEscalafones" value="docentes">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecDineroEscalafones" value="docentes" required>
                   <label class="form-check-label" for="docentes">Solo para docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecDineroEscalafones" value="no docentes">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecDineroEscalafones" value="no docentes" required>
                   <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="todos" name="CompElecDineroEscalafones" value="todos">
+                  <input type="radio" class="form-check-input" id="todos" name="CompElecDineroEscalafones" value="todos" required>
                   <label class="form-check-label" for="todos">Habilitada para todos</label>
                 </div>
               </div>
@@ -182,7 +182,7 @@
 <script>
 var data = [
 <% periodos.forEach( p => { -%>
-  [ '<span class="text-primary"><%- p.id %> <i class="fas fa-edit"></i></span>','<%= p.CompElecDesc %>','<%- p.CompElecFecha %>','<%- p.CompElecDesde %>','<%- p.CompElecHasta %>','<%- p.CompElecLicenciaEscalafones ? p.CompElecLicenciaEscalafones : "todos" %>','<%= p.CompElecLicenciaAsistencia %>','<%- p.CompElecLicenciaActuacion %>', '<%- p.CompElecDineroEscalafones %>', '<%- p.CompElecDineroAsistencia %>', '<%- p.CompElecDineroActuacion %>', '<%- p.activo ? "Sí" : "No" %>' ],
+  [ <%- p.id %>,'<%= p.CompElecDesc %>','<%- p.CompElecFecha %>','<%- p.CompElecDesde %>','<%- p.CompElecHasta %>','<%- p.CompElecLicenciaEscalafones ? p.CompElecLicenciaEscalafones : "todos" %>','<%= p.CompElecLicenciaAsistencia %>','<%- p.CompElecLicenciaActuacion %>','<%- p.CompElecDineroEscalafones %>','<%- p.CompElecDineroAsistencia %>','<%- p.CompElecDineroActuacion %>','<%- p.activo ? "Sí" : "No" %>' ],
 <% }) -%>
 ];
 </script>
