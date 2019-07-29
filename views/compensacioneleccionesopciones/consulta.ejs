@@ -31,14 +31,14 @@
           </tr>
         </thead>
         <tbody>
-          <% let icoLicencia = '<span class="fas fa-walking"></span>';
+          <% let icoLicencia = '<span class="fas fa-sun"></span>';
              let icoDinero = '<span class="fas fa-dollar-sign"></span>';
           -%>
           <% opciones.forEach(o => { -%>
             <% if (!(o.tachado && !o.FechaEnvio)) { %>
             <tr<%- o.tachado ? ' class="tachado"' : '' %>>
               <td><% let periodo = periodos.find(p => p.id==o.CompElecPeriodoId) %><%- periodo.CompElecDesc || '' %></td>
-              <td><%- o.Tipo %></td>
+              <td><%- o.Tipo == "actuacion" ? "actuación" : o.Tipo %></td>
               <td><%- o.Compensacion %> (<%- o.Compensacion == 'dinero' ? icoDinero+(o.Tipo == 'actuacion' ? ' '+icoDinero : '') : icoLicencia+(o.Tipo == 'actuacion' ? ' '+icoLicencia : '') %>)</td>
               <td><%- dependencias.find(d => d.id==o.DependId).DependDesc %></td>
               <td><%- o.FechaRegistro %></td>

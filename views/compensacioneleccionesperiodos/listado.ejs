@@ -1,5 +1,5 @@
 <% Date.prototype.toString = function() {
-  return sprintf("%02d/%02d/%04d", this.getDate(),this.getMonth()+1,this.getFullYear());
+  return sprintf("%04d-%02d-%02d", this.getFullYear(),this.getMonth()+1,this.getDate());
 };
 -%>
 <main id="<%- id %>">
@@ -35,18 +35,16 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="listadoModalLabel">Cambiar configuración del período</h5>
+        <h3 class="modal-title" id="listadoModalLabel">Cambiar configuración del período</h3>
       </div>
       <div class="modal-body">
 
-        <div class="alert alert-danger" style="display:none" role="alert" id="modalMessage"></div>
-
-        <form>
+        <form class="needs-validation" novalidate>
           <div class="form-group">
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">id:</label>
               <div class="col-sm-9">
-                <input type="text" name="periodoid" disabled="disabled">
+                <input type="text" name="periodoid" class="form-control" disabled="disabled">
               </div>
             </div>
           </div>
@@ -54,7 +52,7 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Descripción:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecDesc">
+                <input type="text" name="CompElecDesc" class="form-control" required>
               </div>
             </div>
           </div>
@@ -62,7 +60,7 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Fecha del acto:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecFecha">
+                <input type="text" name="CompElecFecha" class="form-control" pattern="\d\d\d\d-\d\d-\d\d" placeholder="aaaa-mm-dd" required>
               </div>
             </div>
           </div>
@@ -70,7 +68,7 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Período activo desde:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecDesde">
+                <input type="text" name="CompElecDesde" class="form-control" pattern="\d\d\d\d-\d\d-\d\d" placeholder="aaaa-mm-dd" required>
               </div>
             </div>
           </div>
@@ -78,10 +76,13 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Período activo hasta:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecHasta">
+                <input type="text" name="CompElecHasta" class="form-control" pattern="\d\d\d\d-\d\d-\d\d" placeholder="aaaa-mm-dd" required>
               </div>
             </div>
           </div>
+
+          <hr>
+          <h4 class="mb-4">Compensación con licencia</h4>
 
           <div class="form-group">
             <div class="row">
@@ -92,11 +93,11 @@
                   <label class="form-check-label" for="ninguno">No habilitada</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="docentes" name="CompElecLicenciaEscalafones" value="H">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecLicenciaEscalafones" value="docentes">
                   <label class="form-check-label" for="docentes">Solo para docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecLicenciaEscalafones" value="A,B,C,D,E,F,G,I,J,K,L,M,N,O,P,Q,R">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecLicenciaEscalafones" value="no docentes">
                   <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
                 </div>
                 <div class="form-check mt-1">
@@ -110,7 +111,7 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Días de licencia si asistieron:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecLicenciaAsistencia">
+                <input type="text" name="CompElecLicenciaAsistencia" class="form-control">
               </div>
             </div>
           </div>
@@ -118,10 +119,13 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Días de licencia si actuaron:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecLicenciaActuacion">
+                <input type="text" name="CompElecLicenciaActuacion" class="form-control">
               </div>
             </div>
           </div>
+
+          <hr>
+          <h4 class="mb-4">Compensación económica</h4>
 
           <div class="form-group">
             <div class="row">
@@ -132,11 +136,11 @@
                   <label class="form-check-label" for="ninguno">No habilitada</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="docentes" name="CompElecDineroEscalafones" value="H">
+                  <input type="radio" class="form-check-input" id="docentes" name="CompElecDineroEscalafones" value="docentes">
                   <label class="form-check-label" for="docentes">Solo para docentes</label>
                 </div>
                 <div class="form-check mt-1">
-                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecDineroEscalafones" value="A,B,C,D,E,F,G,I,J,K,L,M,N,O,P,Q,R">
+                  <input type="radio" class="form-check-input" id="nodocentes" name="CompElecDineroEscalafones" value="no docentes">
                   <label class="form-check-label" for="nodocentes">Solo para no docentes</label>
                 </div>
                 <div class="form-check mt-1">
@@ -150,7 +154,7 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Dinero si asistieron:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecDineroAsistencia">
+                <input type="text" name="CompElecDineroAsistencia" class="form-control">
               </div>
             </div>
           </div>
@@ -158,10 +162,12 @@
             <div class="row">
               <label class="col-form-label col-sm-3 pt-0">Dinero si actuaron:</label>
               <div class="col-sm-9">
-                <input type="text" name="CompElecDineroActuacion">
+                <input type="text" name="CompElecDineroActuacion" class="form-control">
               </div>
             </div>
           </div>
+
+          <div class="alert alert-danger d-none" role="alert" id="modalMessage"></div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" id="submit">Guardar</button>

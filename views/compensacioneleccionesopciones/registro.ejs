@@ -27,12 +27,15 @@
           <td><%- periodo.CompElecLicenciaEscalafones ? periodo.CompElecLicenciaEscalafones : 'Todos' %></td>
           <td><%- periodo.CompElecLicenciaAsistencia %> días (<span class="fas fa-sun"></span>)</td>
           <td><%- periodo.CompElecLicenciaActuacion %> días (<span class="fas fa-sun"></span> <span class="fas fa-sun"></span>)</td>
-        </tr><tr>
+        </tr>
+        <% if (periodo.CompElecDineroEscalafones != "ninguno") { -%>
+        <tr>
           <td>Compensación económica</td>
           <td><%- periodo.CompElecDineroEscalafones ? periodo.CompElecDineroEscalafones : 'Todos' %></td>
           <td>$ <%- periodo.CompElecDineroAsistencia %> (<span class="fas fa-dollar-sign"></span>)</td>
           <td>$ <%- periodo.CompElecDineroActuacion %> (<span class="fas fa-dollar-sign"></span> <span class="fas fa-dollar-sign"></span>)</td>
         </tr>
+        <% } %>
       </table>
       <% } %>
     </div>
@@ -66,8 +69,6 @@
         <h5 class="modal-title" id="registroModalLabel">Cambiar preferencia</h5>
       </div>
       <div class="modal-body">
-
-        <div class="alert alert-danger" style="display:none" role="alert" id="modalMessage"></div>
 
         <form>
           <p>Seleccione el tipo de constancia y la preferencia de compensación:</p>
@@ -112,11 +113,11 @@
               <div class="col-sm-9">
                 <div class="form-check">
                   <input type="radio" class="form-check-input" id="licencia" name="compensacion" value="licencia">
-                  <label class="form-check-label" for="licencia">Días de licencia<span id="aclaracion_docentes"> en los días inmediatos previos o posteriores a la licencia anual reglamentaria (Resolución 35 Acta 38 de 24/6/04 del CODICEN)</span></label>
+                  <label class="form-check-label" for="licencia">Días de licencia</label>
                 </div>
                 <div class="form-check mt-1">
                   <input type="radio" class="form-check-input" id="dinero" name="compensacion" value="dinero">
-                  <label class="form-check-label" for="dinero">Compensación económica (Resolución 3 Acta 32 de 11/6/19 del CODICEN)</label>
+                  <label class="form-check-label" for="dinero">Compensación económica</label>
                 </div>
               </div>
             </div>
@@ -129,6 +130,9 @@
               </div>
             </div>
           </div>
+
+          <div class="alert alert-danger d-none" role="alert" id="modalMessage"></div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-primary" id="submit">Guardar</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -150,7 +154,7 @@ var data = [
 <% personal.forEach( p => { -%>
   <% let opcion = opciones.find(o => o.PersonalPerId == p.PersonalPerId);
      let tipo = 'nopresenta';
-     let compensacion = 'licencia';
+     let compensacion = '';
      let dependDesc;
      let noguardar;
      if (opcion) {
@@ -187,4 +191,6 @@ var data = [
 var btndata = [
 <%- btndata -%>
 ];
+var licenciaEscalafones = '<%- periodo.CompElecLicenciaEscalafones %>';
+var dineroEscalafones = '<%- periodo.CompElecDineroEscalafones %>';
 </script>

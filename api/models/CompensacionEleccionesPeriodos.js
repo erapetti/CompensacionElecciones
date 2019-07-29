@@ -10,7 +10,7 @@
    migrate: 'alter',
    tableName: 'COMPELECPERIODOS',
    attributes: {
-           id: { type:'number', columnName:'CompElecPeriodoId', required:true },
+           id: { type:'number', columnName:'CompElecPeriodoId', autoIncrement:true },
            CompElecDesc: 'string',
            CompElecFecha: { type:'ref', columnType:'date' },
            CompElecDesde: { type:'ref', columnType:'date' },

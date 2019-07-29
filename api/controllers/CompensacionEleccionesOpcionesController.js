@@ -1,5 +1,5 @@
 /**
- * CompensacionEleccionesController
+ * CompensacionEleccionesOpcionesController
  *
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
@@ -15,7 +15,7 @@ module.exports = {
                       |___/
 */
   registro: async function(req,res) {
-    const periodoId = (req.param('periodoid') || '').checkFormat(/\d+/);
+    const periodoId = req.param('periodoid','').checkFormat(/\d+/);
 
     let viewdata = {
       title: 'Opciones para el personal asignado a Elecciones Nacionales',
@@ -76,10 +76,10 @@ module.exports = {
 */
   guardar: async function(req,res) {
     try {
-      const perId = (req.param('perid') || '').checkFormat(/\d+/);
-      const tipo = (req.param('tipo') || '').checkFormat(/\w+/);
-      const compensacion = (req.param('compensacion') || '').checkFormat(/\w+/);
-      const periodoId = (req.param('periodoid') || '').checkFormat(/\d+/);
+      const perId = req.param('perid','').checkFormat(/\d+/);
+      const tipo = req.param('tipo','').checkFormat(/\w+/);
+      const compensacion = req.param('compensacion','').checkFormat(/\w+/);
+      const periodoId = req.param('periodoid','').checkFormat(/\d+/);
 
       if (!perId || !tipo || !compensacion || !periodoId) {
         throw new Error("Parámetros incorrectos");

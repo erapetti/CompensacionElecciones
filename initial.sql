@@ -88,3 +88,6 @@ alter table COMPELECPERIODOS drop column CompElecAnio;
 alter table COMPELECPERIODOS add column CompElecFecha date after CompElecDesc;
 update COMPELECPERIODOS set CompElecFecha='2019-06-30' where CompElecPeriodoId=1;
 
+-- v1.0.2
+alter table COMPELECPERIODOS modify column CompElecPeriodoId int(11) not null auto_increment;
+
