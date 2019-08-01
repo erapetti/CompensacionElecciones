@@ -23,7 +23,7 @@ module.exports = {
           InasHabUserFec: { type:'ref', columnType:'datetime' },
   },
 
-/*                 _               _ _               
+/*                 _               _ _
          __ _  ___| |_ _   _  __ _| (_)______ _ _ __
         / _` |/ __| __| | | |/ _` | | |_  / _` | '__|
        | (_| | (__| |_| |_| | (_| | | |/ / (_| | |
@@ -46,7 +46,7 @@ module.exports = {
       throw new Error('No se pudo registrar el cambio en la licencia al haber');
     }
 
-    if (result.affectedRows == 0) {
+    if (result.affectedRows == 0 && dias > 0) {
 
       const obj = {
         id: await Numerador.siguiente(dbh,'LICHABERES'),
