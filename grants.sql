@@ -6,3 +6,6 @@ GRANT SELECT ON Personas.* TO 'compelec'@'localhost';
 
 GRANT INSERT,UPDATE ON Personal.COMPELECPERIODOS TO 'compelec'@'localhost';
 
+GRANT INSERT,UPDATE ON Personal.INASLICHABER TO 'compelec'@'localhost';
+GRANT INSERT,UPDATE ON Personal.NUMERADOR TO 'compelec'@'localhost';
+
