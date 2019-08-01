@@ -91,3 +91,8 @@ update COMPELECPERIODOS set CompElecFecha='2019-06-30' where CompElecPeriodoId=1
 -- v1.2
 alter table COMPELECPERIODOS modify column CompElecPeriodoId int(11) not null auto_increment;
 
+-- v2.0
+alter table COMPELECPERIODOSOPCIONES drop column FechaAnulacion;
+alter table COMPELECPERIODOSOPCIONES drop column UsrAnulacion;
+alter table COMPELECPERIODOSOPCIONES drop column FechaEnvioAnulacion;
+
