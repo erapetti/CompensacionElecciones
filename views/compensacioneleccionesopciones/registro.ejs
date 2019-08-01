@@ -25,8 +25,8 @@
         <tr>
           <td>Licencia</td>
           <td><%- periodo.CompElecLicenciaEscalafones ? periodo.CompElecLicenciaEscalafones : 'Todos' %></td>
-          <td><%- periodo.CompElecLicenciaAsistencia %> días (<span class="fas fa-sun"></span>)</td>
-          <td><%- periodo.CompElecLicenciaActuacion %> días (<span class="fas fa-sun"></span> <span class="fas fa-sun"></span>)</td>
+          <td><%- periodo.CompElecLicenciaAsistencia %> días (<span class="far fa-smile"></span>)</td>
+          <td><%- periodo.CompElecLicenciaActuacion %> días (<span class="far fa-smile"></span> <span class="far fa-smile"></span>)</td>
         </tr>
         <% if (periodo.CompElecDineroEscalafones != "ninguno") { -%>
         <tr>
@@ -147,7 +147,7 @@
 <% let idx = 0;
    let btndata = '';
    let icoNada = '<span class="fas fa-times"></span>';
-   let icoLicencia = '<span class="fas fa-sun"></span>';
+   let icoLicencia = '<span class="far fa-smile"></span>';
    let icoDinero = '<span class="fas fa-dollar-sign"></span>';
 -%>
 var data = [
