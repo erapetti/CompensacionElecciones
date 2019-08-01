@@ -92,12 +92,12 @@ module.exports = {
       }
 
       if (!req.session.Dependid || !req.session.Userid) {
-        throw new Error("Reinicie  || !periodo[0]su sesión en el Portal de Servicios");
+        throw new Error("Reinicie su sesión en el Portal de Servicios");
       }
 
       const opcion = {
         PersonalPerId: perId,
-        CompElecPeriodoId: periodoId,
+        CompElecPeriodoId: periodo.id,
         DependId: req.session.Dependid,
         Tipo: tipo,
         Compensacion: (tipo!='nopresenta' ? compensacion : null),
@@ -105,7 +105,19 @@ module.exports = {
         UsrRegistro: req.session.Userid,
       };
 
-      await CompensacionEleccionesOpciones.create(opcion);
+      const dias = compensacion=='licencia' ? (tipo=='asitencia' ? periodo.CompElecLicenciaAsistencia : tipo=='actuacion' ? periodo.CompElecLicenciaActuacion : 0) : 0;
+
+      await sails.getDatastore('Personal').transaction(async dbh => {
+
+        // salvo el Userid para la auditoría
+        await sails.getDatastore('Personal').sendNativeQuery(
+          'set @GXUserId = $1',
+          [ req.session.Userid ]
+        ).usingConnection(dbh);
+
+        await CompensacionEleccionesOpciones.create(opcion).usingConnection(dbh);
+        await InasLicHaber.actualizar(dbh, perId, periodo.CompElecFecha, dias, req.session.Userid);
+      });
 
     } catch(e) {
       return res.status(200).json({error:e.message});

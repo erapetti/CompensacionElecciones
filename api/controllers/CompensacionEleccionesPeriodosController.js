@@ -7,6 +7,12 @@
 
 module.exports = {
 
+/*              _ _     _            _       
+               | (_)___| |_ __ _  __| | ___
+               | | / __| __/ _` |/ _` |/ _ \
+               | | \__ \ || (_| | (_| | (_) |
+               |_|_|___/\__\__,_|\__,_|\___/
+*/
   listado: async function(req,res) {
     let viewdata = {
       title: 'Períodos de Elecciones Nacionales',
