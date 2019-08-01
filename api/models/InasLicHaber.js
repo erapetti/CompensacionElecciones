@@ -23,6 +23,13 @@ module.exports = {
           InasHabUserFec: { type:'ref', columnType:'datetime' },
   },
 
+/*                 _               _ _               
+         __ _  ___| |_ _   _  __ _| (_)______ _ _ __
+        / _` |/ __| __| | | |/ _` | | |_  / _` | '__|
+       | (_| | (__| |_| |_| | (_| | | |/ / (_| | |
+        \__,_|\___|\__|\__,_|\__,_|_|_/___\__,_|_|
+*/
+
   // la función 'actualizar' requiere un dbh obtenido por .transaction
   actualizar: async function(dbh, personalPerId, fecha, dias, userId) {
 

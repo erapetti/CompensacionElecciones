@@ -95,17 +95,21 @@ module.exports = {
         throw new Error("Reinicie su sesión en el Portal de Servicios");
       }
 
+      const hoyDate = new Date();
       const opcion = {
         PersonalPerId: perId,
         CompElecPeriodoId: periodo.id,
         DependId: req.session.Dependid,
         Tipo: tipo,
         Compensacion: (tipo!='nopresenta' ? compensacion : null),
-        FechaRegistro: new Date(),
+        FechaRegistro: hoyDate,
         UsrRegistro: req.session.Userid,
+        FechaEnvio: (compensacion=='licencia' ? hoyDate : null),
       };
 
-      const dias = compensacion=='licencia' ? (tipo=='asitencia' ? periodo.CompElecLicenciaAsistencia : tipo=='actuacion' ? periodo.CompElecLicenciaActuacion : 0) : 0;
+      const dias = compensacion=='licencia' ? (tipo=='asistencia' ? periodo.CompElecLicenciaAsistencia : tipo=='actuacion' ? periodo.CompElecLicenciaActuacion : 0) : 0;
+
+      // Inicio una transacción para registrar la opción y los días al haber
 
       await sails.getDatastore('Personal').transaction(async dbh => {
 
@@ -196,4 +200,9 @@ String.prototype.checkFormat = function(regexp) {
 Date.prototype.toDateString = function(d) {
   const sprintf = require("sprintf");
   return sprintf("%04d-%02d-%02d", this.getFullYear(),this.getMonth()+1,this.getDate());
+};
+
+Date.prototype.toDateDMAString = function(d) {
+  const sprintf = require("sprintf");
+  return sprintf("%02d/%02d/%04d", this.getDate(),this.getMonth()+1,this.getFullYear());
 };

@@ -15,6 +15,15 @@ module.exports = {
           NumDsc: 'string',
           NumUltimo: 'number',
   },
+
+/*             _             _            _       
+           ___(_) __ _ _   _(_) ___ _ __ | |_ ___
+          / __| |/ _` | | | | |/ _ \ '_ \| __/ _ \
+          \__ \ | (_| | |_| | |  __/ | | | ||  __/
+          |___/_|\__, |\__,_|_|\___|_| |_|\__\___|
+                 |___/
+*/
+
   // la función 'siguiente' requiere un dbh obtenido por .transaction
   siguiente: async function(dbh, id) {
 

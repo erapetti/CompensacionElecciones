@@ -174,7 +174,7 @@ var data = [
       let color =
         (tipo == 'nopresenta' ? 'primary' : 'secondary');
       let envio =
-        (! p.FechaEnvio ? 'Pendiente' : 'Enviado');
+        (opcion && opcion.FechaEnvio ? 'Enviado '+opcion.FechaEnvio.toDateDMAString() : 'Pendiente');
       btndata = btndata+
        '\t{tipo:"'+tipo+'"'+
        ', comp:"'+compensacion+'"'+
