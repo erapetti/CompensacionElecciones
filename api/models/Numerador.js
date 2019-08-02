@@ -16,7 +16,7 @@ module.exports = {
           NumUltimo: 'number',
   },
 
-/*             _             _            _       
+/*             _             _            _
            ___(_) __ _ _   _(_) ___ _ __ | |_ ___
           / __| |/ _` | | | | |/ _ \ '_ \| __/ _ \
           \__ \ | (_| | |_| | |  __/ | | | ||  __/
@@ -27,11 +27,11 @@ module.exports = {
   // la función 'siguiente' requiere un dbh obtenido por .transaction
   siguiente: async function(dbh, id) {
 
-      const rows = await this.getDatastore().sendNativeQuery(
+      const result = await this.getDatastore().sendNativeQuery(
         'select NumUltimo from NUMERADOR where NumClaveId=$1 FOR UPDATE',
         [ id ]
       ).usingConnection(dbh);
-      const ultimo = rows.rows[0].NumUltimo;
+      const ultimo = result && result.rows[0] ? result.rows[0].NumUltimo : undefined;
 
       if (!ultimo) {
         throw 'Numerador no encontrado';

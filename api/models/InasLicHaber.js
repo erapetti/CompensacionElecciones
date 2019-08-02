@@ -31,15 +31,15 @@ module.exports = {
 */
 
   // la función 'actualizar' requiere un dbh obtenido por .transaction
-  actualizar: async function(dbh, personalPerId, fecha, dias, userId) {
+  actualizar: async function(dbh, personalPerId, anio, dias, userId) {
 
     const hoy = new Date();
 
     // preciso saber si en la base ya está este registro entonces tuve que usar sendNativeQuery
     const result =
       await this.getDatastore().sendNativeQuery(
-        'update INASLICHABER set InasHabCant=$1 where InasCausId="CE" and PersonalPerId=$2 and InasHabFecha=$3',
-        [ dias, personalPerId, fecha.toDateString() ]
+        'update INASLICHABER set InasHabCant=$1 where InasCausId="CE" and PersonalPerId=$2 and InasHabAnioGenera=$3',
+        [ dias, personalPerId, anio ]
       ).usingConnection(dbh);
 
     if (!result) {
@@ -52,9 +52,9 @@ module.exports = {
         id: await Numerador.siguiente(dbh,'LICHABERES'),
         InasCausId: 'CE',
         PersonalPerId: personalPerId,
-        InasHabFecha: fecha.toDateString(),
+        InasHabAnioGenera: anio,
         InasHabCant: dias,
-        InasHabAnioGenera: fecha.getFullYear(),
+        InasHabFecha: hoy.toDateString(),
         InasHabFchVtoIni: hoy.toDateString(),
         InasHabUserId: userId,
         InasHabUserFec: hoy,

@@ -107,8 +107,6 @@ module.exports = {
         FechaEnvio: (compensacion=='licencia' ? hoyDate : null),
       };
 
-      const dias = compensacion=='licencia' ? (tipo=='asistencia' ? periodo.CompElecLicenciaAsistencia : tipo=='actuacion' ? periodo.CompElecLicenciaActuacion : 0) : 0;
-
       // Inicio una transacción para registrar la opción y los días al haber
 
       await sails.getDatastore('Personal').transaction(async dbh => {
@@ -119,8 +117,12 @@ module.exports = {
           [ req.session.Userid ]
         ).usingConnection(dbh);
 
+        // registro la opción de compensación
         await CompensacionEleccionesOpciones.create(opcion).usingConnection(dbh);
-        await InasLicHaber.actualizar(dbh, perId, periodo.CompElecFecha, dias, req.session.Userid);
+        // los días de licencia que tiene por todas las elecciones del año
+        const dias = await CompensacionEleccionesOpciones.dias(dbh, perId, periodo.CompElecFecha.getFullYear());
+        // actualizo los días al haber
+        await InasLicHaber.actualizar(dbh, perId, periodo.CompElecFecha.getFullYear(), dias, req.session.Userid);
       });
 
     } catch(e) {
