@@ -33,7 +33,7 @@ module.exports = {
 
     try {
       const hoy = (new Date()).toDateString();
-      const periodos = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('id');
+      const periodos = await CompensacionEleccionesPeriodos.find({CompElecDesde:{'<=':hoy},CompElecHasta:{'>=':hoy}}).sort('CompElecFecha');
       if (!periodos || !periodos.length) {
         throw new Error("No hay ningún período de elecciones que esté activo para registrar opciones");
       }
@@ -41,7 +41,7 @@ module.exports = {
         throw new Error("El período solicitado no se encuentra activo para registrar opciones");
       }
       viewdata.periodos = periodos;
-      viewdata.periodoId = periodoId || periodos[0].id;
+      viewdata.periodoId = periodoId || periodos[periodos.length-1].id;
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
