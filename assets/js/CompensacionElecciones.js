@@ -164,8 +164,8 @@ $('#periodosListado #agregar').click(function() {
   $('#listadoModal input[name=CompElecLicenciaAsistencia]').val( '2' );
   $('#listadoModal input[name=CompElecLicenciaActuacion]').val( '5' );
   $('#listadoModal input[name=CompElecDineroEscalafones][value=ninguno]').attr('checked','checked');
-  $('#listadoModal input[name=CompElecDineroAsistencia]').val( '' );
-  $('#listadoModal input[name=CompElecDineroActuacion]').val( '' );
+  $('#listadoModal input[name=CompElecDineroAsistencia]').val( '0' );
+  $('#listadoModal input[name=CompElecDineroActuacion]').val( '0' );
 
   $('#listadoModal form').removeClass('was-validated');
   $('#listadoModal').modal('show');
