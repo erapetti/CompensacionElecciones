@@ -191,6 +191,8 @@ var data = [
 var btndata = [
 <%- btndata -%>
 ];
+<% if (periodo) { %>
 var licenciaEscalafones = '<%- periodo.CompElecLicenciaEscalafones %>';
 var dineroEscalafones = '<%- periodo.CompElecDineroEscalafones %>';
+<% } %>
 </script>
