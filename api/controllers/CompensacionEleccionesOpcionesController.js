@@ -15,7 +15,7 @@ module.exports = {
                       |___/
 */
   registro: async function(req,res) {
-    const periodoId = req.param('periodoid','').checkFormat(/\d+/);
+    let periodoId = req.param('periodoid','').checkFormat(/\d+/);
 
     let viewdata = {
       title: 'Opciones para el personal asignado a Elecciones Nacionales',
@@ -40,8 +40,11 @@ module.exports = {
       if (periodoId && !periodos.find(p => p.id==periodoId)) {
         throw new Error("El período solicitado no se encuentra activo para registrar opciones");
       }
+      if (!periodoId) {
+        periodoId = periodos[periodos.length-1].id;
+      }
       viewdata.periodos = periodos;
-      viewdata.periodoId = periodoId || periodos[periodos.length-1].id;
+      viewdata.periodoId = periodoId;
 
       const depend = await Dependencias.findOne({id:req.session.Dependid});
       if (!depend) {
