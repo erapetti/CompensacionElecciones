@@ -7,7 +7,7 @@
 
 module.exports = {
 
-/*              _ _     _            _       
+/*              _ _     _            _
                | (_)___| |_ __ _  __| | ___
                | | / __| __/ _` |/ _` |/ _ \
                | | \__ \ || (_| | (_| | (_) |
@@ -44,7 +44,7 @@ module.exports = {
     try {
       let periodo = {};
       periodo.id = req.param('periodoid','').checkFormat(/\d+/);
-      periodo.CompElecDesc = req.param('CompElecDesc','').checkFormat(/[\wáéíóúÁÉÍÓÚüÜñÑ ,;.'"-]+/);
+      periodo.CompElecDesc = req.param('CompElecDesc','').checkFormat(/[\wáéíóúÁÉÍÓÚüÜñÑ ,;.'"º°-]+/);
       periodo.CompElecFecha = req.param('CompElecFecha','').checkFormat(/\d\d\d\d-\d\d-\d\d/);
       periodo.CompElecDesde = req.param('CompElecDesde','').checkFormat(/\d\d\d\d-\d\d-\d\d/);
       periodo.CompElecHasta = req.param('CompElecHasta','').checkFormat(/\d\d\d\d-\d\d-\d\d/);
