@@ -54,7 +54,7 @@ module.exports = {
       viewdata.dependNom = depend.DependNom;
 
       const personal = await FuncionesAsignadas.activos(req.session.Dependid);
-      if (!personal) {
+      if (!personal || personal.length == 0) {
         throw new Error("No se encuentra personal activo en la dependencia "+req.session.Dependid);
       }
       viewdata.personal = personal;
@@ -96,6 +96,17 @@ module.exports = {
 
       if (!req.session.Dependid || !req.session.Userid) {
         throw new Error("Reinicie su sesión en el Portal de Servicios");
+      }
+
+      const personal = await FuncionesAsignadas.activos(req.session.Dependid, perId);
+      if (!personal || personal.length == 0) {
+        throw new Error("El funcionario no se encuentra activo en la dependencia");
+      }
+      const escValidos = (compensacion=='licencia' ? periodo.CompElecLicenciaEscalafones : periodo.CompElecDineroEscalafones);
+      if (escValidos=='ninguno' ||
+          escValidos=='docentes'    && !personal.find(p => p.EscId=='H') ||
+          escValidos=='no docentes' && !personal.find(p => p.EscId!='H')) {
+            throw new Error('Tipo de compensación inválida para el período y el funcionario seleccionado');
       }
 
       const hoyDate = new Date();

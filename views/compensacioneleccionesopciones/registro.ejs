@@ -159,7 +159,7 @@ var data = [
      let noguardar;
      if (opcion) {
        tipo = opcion.Tipo;
-       compensacion = opcion.Compensacion;
+       compensacion = opcion.Compensacion ? opcion.Compensacion : '';
        if (tipo != 'nopresenta') {
          dependDesc = opcion.DependId.DependDesc;
          noguardar = (opcion.DependId.id != dependId);

@@ -27,22 +27,22 @@ module.exports = {
   // la función 'siguiente' requiere un dbh obtenido por .transaction
   siguiente: async function(dbh, id) {
 
-      const result = await this.getDatastore().sendNativeQuery(
-        'select NumUltimo from NUMERADOR where NumClaveId=$1 FOR UPDATE',
+      await this.getDatastore().sendNativeQuery(
+        `update NUMERADOR set NumUltimo=(@ultimo:=NumUltimo+1) where NumClaveId=$1`,
         [ id ]
       ).usingConnection(dbh);
+
+      const result = await this.getDatastore().sendNativeQuery(
+        `select @ultimo NumUltimo`,
+        [ id ]
+      ).usingConnection(dbh);
+
       const ultimo = result && result.rows[0] ? result.rows[0].NumUltimo : undefined;
 
       if (!ultimo) {
         throw 'Numerador no encontrado';
       }
 
-      await this.getDatastore().sendNativeQuery(
-        'update NUMERADOR set NumUltimo=NumUltimo+1 where NumClaveId=$1',
-        [ id ]
-      ).usingConnection(dbh);
-
-      return ultimo+1;
-
+      return ultimo;
   },
 };

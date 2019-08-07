@@ -22,7 +22,7 @@
 
    // Personal con funciones activas en la dependencia
    // En el caso de RECURSOS HUMANOS (2710) se devuelven todos los funcionarios activos en oficinas
-   activos: async function (dependId) {
+   activos: async function (dependId, perId=0) {
      const result = await this.getDatastore().sendNativeQuery(`
           select PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
           from RELACIONES_LABORALES
@@ -39,9 +39,10 @@
             and FuncAsignadaAnulada=0
             and ifnull(FuncAsignadaFchDesde,'1000-01-01')<=CURDATE()
             and (ifnull(FuncAsignadaFchHasta,'1000-01-01')='1000-01-01' or FuncAsignadaFchHasta>=CURDATE())
+            and ($2=0 or PersonalPerId=$2)
           group by PersonalPerId,PerDocId,PerNombreCompleto,FuncionDesc,EscId
           order by PerDocId
-      `, [dependId]);
+      `, [dependId, perId]);
 
       return result.rows;
    },
