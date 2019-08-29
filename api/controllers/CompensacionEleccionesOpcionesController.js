@@ -136,7 +136,7 @@ module.exports = {
         // los días de licencia que tiene por todas las elecciones del año
         const dias = await CompensacionEleccionesOpciones.dias(dbh, perId, periodo.CompElecFecha.getFullYear());
         // actualizo los días al haber
-        await InasLicHaber.actualizar(dbh, perId, periodo.CompElecFecha.getFullYear(), dias, req.session.Userid);
+        await InasLicHaber.actualizar(dbh, perId, periodo.CompElecFecha, dias, req.session.Userid);
       });
 
     } catch(e) {

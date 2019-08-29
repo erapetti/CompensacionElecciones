@@ -12,7 +12,7 @@
       <label for="periodoid">Período:</label>
       <select class="ml-1 custom-select" id="periodoid" name="periodoid" onChange="window.location.href='?periodoid='+$('#periodoid option:checked').val()">
         <% periodos.forEach(function(p){ -%>
-          <option value="<%- p.id %>"<% if (p.id==periodoId) { %> selected<% } %>><%- p.CompElecDesc %></option>
+          <option value="<%- p.id %>"<% if (p.id==periodoId) { %> selected<% } %>><%- p.CompElecDesc %>: <%- p.CompElecFecha.toDateDMAString() %></option>
         <% }) -%>
       </select>
     </div>
@@ -174,7 +174,7 @@ var data = [
       let color =
         (tipo == 'nopresenta' ? 'primary' : 'secondary');
       let envio =
-        (opcion && opcion.FechaEnvio ? 'Enviado '+opcion.FechaEnvio.toDateDMAString() : 'Pendiente');
+        (opcion ? (opcion.FechaEnvio ? 'Enviado '+opcion.FechaEnvio.toDateDMAString() : 'Pendiente') : '');
       btndata = btndata+
        '\t{tipo:"'+tipo+'"'+
        ', comp:"'+compensacion+'"'+
